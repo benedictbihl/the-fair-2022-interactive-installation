@@ -25,7 +25,7 @@ app.router.add_static('/assets', '../client/dist/assets')
 app.router.add_get('/', index)
 
 
-def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+def id_generator(size=3, chars=string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
 
