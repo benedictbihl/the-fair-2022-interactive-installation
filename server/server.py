@@ -15,10 +15,7 @@ async def index(request):
 # huge delay in sending out the nfc id
 sio = socketio.AsyncServer(
     cors_allowed_origins='*',
-    async_mode='aiohttp',
-    logger=True,
-    engineio_logger=True,
-    ping_timeout=1)
+    async_mode='aiohttp')
 app = web.Application()
 sio.attach(app)
 app.router.add_static('/assets', '../client/dist/assets')
@@ -37,7 +34,11 @@ async def emulate_nfc_tag():
 
 def on_press(key):
     if key == keyboard.Key.shift:
-        asyncio.run(emulate_nfc_tag())
+        # Create a coroutine
+        coro = emulate_nfc_tag()
+        # Submit the coroutine to a given loop
+        asyncio.run_coroutine_threadsafe(coro, loop)
+        # asyncio.run(emulate_nfc_tag())
     if key == keyboard.Key.esc:
         # Stop listener
         return False
