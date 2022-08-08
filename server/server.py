@@ -11,8 +11,6 @@ async def index(request):
     with open('../client/dist/index.html') as f:
         return web.Response(text=f.read(), content_type='text/html')
 
-# no idea why ping_timeout needs to be set to 1, but otherwise there is a
-# huge delay in sending out the nfc id
 sio = socketio.AsyncServer(
     cors_allowed_origins='*',
     async_mode='aiohttp')
