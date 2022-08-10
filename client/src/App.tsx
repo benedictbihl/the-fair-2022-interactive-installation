@@ -4,15 +4,15 @@ import io from "socket.io-client";
 import "./App.css";
 import Canvas from "./components/Canvas";
 
-const host = import.meta.env.PROD ? window.location.host : "localhost:8080";
-
+const hostname = window.location.hostname;
+console.log(hostname)
 const App = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [nfcID, setnfcID] = useState(0);
 
   useEffect(() => {
     //@ts-ignore
-    const socket = io("http://" + host, { transports: ["websocket"] });
+    const socket = io("http://" + hostname + ":8080", { transports: ["websocket"] });
 
     socket.on("connect", () => {
       console.log("connected");
