@@ -1,18 +1,25 @@
-import RPi.GPIO as GPIO
-import asyncio
-
-# local imports
-from pn532 import *
 from helpers.emulateNFCWithKeyboard import initialize_keyboard_listener
+import asyncio
+import platform
+
+
+def is_raspberry_pi() -> bool:
+    return platform.machine() in ('armv7l', 'armv6l')
+
+
+if is_raspberry_pi():
+    import RPi.GPIO as GPIO
+    from pn532 import *
 
 
 def nfc_setup(sio, loop):
     try:
-        pn532 = PN532_UART(debug=False, reset=20)
-        if not pn532:
+        if not is_raspberry_pi():
             print(
                 "Could not find PN532 board, starting keyboard emulation. press shift to send out nfc id")
             initialize_keyboard_listener(sio, loop)
+
+        pn532 = PN532_UART(debug=False, reset=20)
 
         ic, ver, rev, support = pn532.get_firmware_version()
         print('Found PN532 with firmware version: {0}.{1}'.format(ver, rev))
@@ -28,7 +35,8 @@ def nfc_setup(sio, loop):
     except Exception as e:
         print(e)
     finally:
-        GPIO.cleanup()
+        if is_raspberry_pi():
+            GPIO.cleanup()
 
 
 async def readNFC(sio, pn532):
