@@ -1,5 +1,5 @@
 aiohttp==3.8.1
-asyncio==3.4.3
+gevent_socketio==0.3.6
 pynput==1.7.6
-python-socketio==5.7.1
-
+pyserial==3.5
+spidev==3.5
