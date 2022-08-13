@@ -49,4 +49,8 @@ async def readNFC(sio, pn532):
         if uid is None:
             continue
         print('Found card with UID:', [hex(i) for i in uid])
-        await sio.send([hex(i) for i in uid])
+        print('Sending to Client')
+        await asyncio.sleep(2)  # fake 2 second delay to simulate reading
+        # send as int to client
+        await sio.send(int.from_bytes(uid, byteorder='big'))
+        print('Sent to Client')
