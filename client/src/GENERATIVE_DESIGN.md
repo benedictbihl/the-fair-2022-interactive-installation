@@ -1,9 +1,0 @@
-- based on song design bars & beats generative system
-- each visitor can use their badge to manipulate the displayed visuals
-- the following parameters can change based on user interaction
-  - background color (within the defined palet)
-  - color of the bars (within the defined palet)
-  - color of the beats (within the defined palet)
-  - animation of a beat
-  - number of bars (?)
-  - number of beats

@@ -1,27 +1,43 @@
 module.exports = {
-    "env": {
-        "browser": true,
-        "es2021": true
+    root: true,
+    parser: "@typescript-eslint/parser",
+    parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: "module",
+        ecmaFeatures: {
+            jsx: true,
+        },
     },
-    "extends": [
+    settings: {
+        react: {
+            version: "detect",
+        },
+    },
+    env: {
+        browser: true,
+        amd: true,
+        node: true,
+    },
+    extends: [
         "eslint:recommended",
         "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:react/jsx-runtime"
+        "plugin:prettier/recommended",
     ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": "latest",
-        "sourceType": "module"
+    plugins: ["simple-import-sort", "prettier"],
+    rules: {
+        "prettier/prettier": [
+            "error",
+            {},
+            {
+                usePrettierrc: true,
+            },
+        ],
+        "no-unused-vars": "off",
+        "react/react-in-jsx-scope": "off",
+        "react/prop-types": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error",
     },
-    "plugins": [
-        "react",
-        "@typescript-eslint"
-    ],
-    "rules": {
-        'react/prop-types': "off"
-    }
-}
+};
+

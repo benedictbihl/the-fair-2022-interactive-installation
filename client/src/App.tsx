@@ -1,18 +1,33 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { useState, useEffect } from "react";
-import io from "socket.io-client";
 import "./App.css";
+
+import { useCallback, useEffect, useState } from "react";
+import io from "socket.io-client";
+
 import Canvas from "./components/Canvas";
 
 const hostname = window.location.hostname;
-console.log(hostname)
+
 const App = () => {
   const [isConnected, setIsConnected] = useState(false);
-  const [nfcID, setnfcID] = useState(0);
+  const [connectedIDs, setConnectedIDs] = useState<number[]>(
+    JSON.parse(localStorage.getItem("connected_IDs") ?? "[]") ?? []
+  );
+
+  const handleKeyPress = useCallback((event: KeyboardEvent) => {
+    if (event.key === "c") {
+      if (confirm("Clean local storage to removed all IDs?") == true) {
+        localStorage.removeItem("connected_IDs");
+        setConnectedIDs([]);
+      }
+    }
+  }, []);
 
   useEffect(() => {
-    //@ts-ignore
-    const socket = io("http://" + hostname + ":8080", { transports: ["websocket"] });
+    document.addEventListener("keydown", handleKeyPress);
+
+    const socket = io("http://" + hostname + ":8080", {
+      transports: ["websocket"],
+    });
 
     socket.on("connect", () => {
       console.log("connected");
@@ -24,9 +39,10 @@ const App = () => {
       setIsConnected(false);
     });
 
-    socket.on("message", function (data: any) {
+    socket.on("message", function (data: number) {
       console.log("Received a message from the server!", data);
-      setnfcID(data);
+      !connectedIDs.includes(data) &&
+        setConnectedIDs((connectedIDs) => [...connectedIDs, data]);
     });
 
     setInterval(() => {
@@ -42,15 +58,21 @@ const App = () => {
       socket.off("connect");
       socket.off("disconnect");
       socket.off("message");
+      document.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
 
+  useEffect(() => {
+    console.log(connectedIDs);
+    localStorage.setItem("connected_IDs", JSON.stringify(connectedIDs));
+  }, [connectedIDs]);
+
   return (
     <>
-      <Canvas nfcID={nfcID} />
+      <Canvas nfcID={connectedIDs[connectedIDs.length - 1]} />
       <div className="nfc">
         <p>Connected: {"" + isConnected}</p>
-        <div>NFC TAG ID: {nfcID}</div>
+        <div>NFC TAG ID: {connectedIDs[connectedIDs.length - 1]}</div>
       </div>
     </>
   );
