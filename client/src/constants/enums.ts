@@ -3,7 +3,7 @@ export enum COLORS {
   REVERB_BLUE = "#704cfe",
   PURPLE_NOISE = "#460073",
   VANILLA_PHASER = "#ece3d0",
-  BLACK = "#000000",
+  // BLACK = "#000000",
   GOLD_TUNE = "#cd9e3c",
 }
 
@@ -11,13 +11,15 @@ export enum COLORS {
 
 export enum COLOR_MODIFIER {
   NO_MODIFIER = "no_modifier",
-  FILL_SHAPES = "fill_shapes",
-  INVERT_COLORS = "invert_colors",
+  FILL_CIRCLES = "fill_circles",
+  EMOJIS = "emojis",
+  INVERT_COLORS = "invert_colors", //TODO
 }
 
 export enum SHAPE_MODIFIER {
   NO_MODIFIER = "no_modifier",
-  PERLIN_NOISE = "perlin_noise",
+  PERLIN_NOISE = "perlin_noise", //TODO
+  PIXEL_SHIFT = "pixel_shift",
 }
 
 export enum MOVEMENT_MODIFIER {

@@ -6,6 +6,7 @@ import {
   ADDITIONAL_ELEMENTS_MODIFIER,
   COLOR_MODIFIER,
   MOVEMENT_MODIFIER,
+  SHAPE_MODIFIER,
 } from "../../constants/enums";
 import { AnimationModifierState } from "../../constants/types";
 interface IDebugPanelProps {
@@ -81,7 +82,8 @@ const DebugPanel: FC<IDebugPanelProps> = ({
           }}
         >
           <option value={COLOR_MODIFIER.NO_MODIFIER}>No Modifier</option>
-          <option value={COLOR_MODIFIER.FILL_SHAPES}>Fill Shapes</option>
+          <option value={COLOR_MODIFIER.FILL_CIRCLES}>Fill Circles</option>
+          <option value={COLOR_MODIFIER.EMOJIS}>Emojis</option>
         </select>
       </label>
       <label htmlFor="dynrowheights">
@@ -101,6 +103,22 @@ const DebugPanel: FC<IDebugPanelProps> = ({
             Dynamic Row Heights
           </option>
           <option value={MOVEMENT_MODIFIER.SINE_WAVE}> Sine Wave</option>
+        </select>
+      </label>
+      <label htmlFor="shape-mod">
+        Shape Mod.
+        <select
+          value={animationModifierState.shapeModifier}
+          id="shape-mod"
+          onChange={(e) => {
+            setAnimationModifierState({
+              ...animationModifierState,
+              shapeModifier: e.target.value as SHAPE_MODIFIER,
+            });
+          }}
+        >
+          <option value={SHAPE_MODIFIER.NO_MODIFIER}>No Modifier</option>
+          <option value={SHAPE_MODIFIER.PIXEL_SHIFT}>Pixel Shifting</option>
         </select>
       </label>
       <br />

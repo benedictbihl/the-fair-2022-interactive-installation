@@ -9,7 +9,7 @@ export function movementModifier(
   p5: P5Instance,
   canvasSettings: CanvasSettings,
   movementModifierState: MOVEMENT_MODIFIER
-): { topRow: Row; midRow: Row; botRow: Row } {
+): { topRowPositionMod: Row; midRowPositionMod: Row; botRowPositionMod: Row } {
   let heightTopRow = 2;
   let yPosMidRow =
     heightTopRow * canvasSettings.circleSize + canvasSettings.gap;
@@ -35,21 +35,21 @@ export function movementModifier(
       heightBotRow = 7.7 - heightMidRow - heightTopRow;
 
       return {
-        topRow: {
+        topRowPositionMod: {
           ypos: 0,
           xpos: 0,
           height: heightTopRow,
           topRadius: 0,
           botRadius: 200,
         },
-        midRow: {
+        midRowPositionMod: {
           ypos: yPosMidRow,
           xpos: 0,
           height: heightMidRow,
           topRadius: 200,
           botRadius: 200,
         },
-        botRow: {
+        botRowPositionMod: {
           ypos: yPosBotRow,
           xpos: 0,
           height: heightBotRow,
@@ -59,26 +59,26 @@ export function movementModifier(
       };
     }
     case MOVEMENT_MODIFIER.SINE_WAVE: {
-      count += 0.03; //get things moving
-      xposTopRow = 5 * p5.sin(count);
-      xposMidrow = 5 * p5.cos(count);
-      xposBotRow = 5 * p5.sin(count);
+      count += 0.02; //get things moving
+      xposTopRow = 3 * p5.sin(count);
+      xposMidrow = 4 * p5.cos(count);
+      xposBotRow = 3 * p5.sin(count);
       return {
-        topRow: {
+        topRowPositionMod: {
           ypos: 0,
           xpos: xposTopRow,
           height: heightTopRow,
           topRadius: 0,
           botRadius: 200,
         },
-        midRow: {
+        midRowPositionMod: {
           ypos: yPosMidRow,
           xpos: xposMidrow,
           height: heightMidRow,
           topRadius: 200,
           botRadius: 200,
         },
-        botRow: {
+        botRowPositionMod: {
           ypos: yPosBotRow,
           xpos: xposBotRow,
           height: heightBotRow,
@@ -89,21 +89,21 @@ export function movementModifier(
     }
     default: {
       return {
-        topRow: {
+        topRowPositionMod: {
           ypos: 0,
           xpos: 0,
           height: heightTopRow,
           topRadius: 0,
           botRadius: 200,
         },
-        midRow: {
+        midRowPositionMod: {
           ypos: yPosMidRow,
           xpos: 0,
           height: heightMidRow,
           topRadius: 200,
           botRadius: 200,
         },
-        botRow: {
+        botRowPositionMod: {
           ypos: yPosBotRow,
           xpos: 0,
           height: heightBotRow,

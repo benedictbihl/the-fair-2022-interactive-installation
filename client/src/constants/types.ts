@@ -1,6 +1,7 @@
 import {
   ADDITIONAL_ELEMENTS_MODIFIER,
   COLOR_MODIFIER,
+  COLORS,
   MOVEMENT_MODIFIER,
   SHAPE_MODIFIER,
 } from "./enums";
@@ -42,7 +43,7 @@ export type Rgb = {
 
 export type CanvasSettings = {
   scaleFactor: number;
-  rowCount: number;
+  columnCount: number;
   gap: number;
   padding: number;
   circleSize: number;
@@ -58,4 +59,18 @@ export type AnimationModifierState = {
   shapeModifier: SHAPE_MODIFIER;
   movementModifier: MOVEMENT_MODIFIER;
   additionalElementsModifier: ADDITIONAL_ELEMENTS_MODIFIER;
+};
+
+export type CircleModification = {
+  color?: COLORS;
+  emoji?: string;
+};
+
+export type RectangleModification = {
+  color?: COLORS;
+};
+
+export type ShapeModification = {
+  circle?: CircleModification;
+  rectangle?: RectangleModification;
 };

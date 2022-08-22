@@ -13,12 +13,13 @@ import { AnimationModifierState, CanvasSettings } from "../../constants/types";
 import { additionalElementsModifier } from "../../utils/p5/animationStateUtils/additionalElementsModifier";
 import { colorModifier } from "../../utils/p5/animationStateUtils/colorModifier";
 import { movementModifier } from "../../utils/p5/animationStateUtils/movementModifier";
+import { shapeModifier } from "../../utils/p5/animationStateUtils/shapeModifier";
 import { drawRow } from "../../utils/p5/drawingUtils/drawShapes";
 import DebugPanel from "../DebugPanel";
 
 const canvasSettings: CanvasSettings = {
   scaleFactor: 5,
-  rowCount: 15,
+  columnCount: 15,
   gap: 10,
   get padding() {
     return 4 * this.scaleFactor;
@@ -29,7 +30,7 @@ const canvasSettings: CanvasSettings = {
   get canvasWidth() {
     return (
       this.padding * 2 +
-      this.circleSize * (this.rowCount - 1) * 0.6 +
+      this.circleSize * (this.columnCount - 1) * 0.6 +
       this.circleSize
     );
   },
@@ -50,6 +51,7 @@ const Canvas: FC<{ nfcID: number }> = ({ nfcID }) => {
   function sketch(p5: P5Instance) {
     p5.setup = () => {
       p5.createCanvas(canvasSettings.canvasWidth, canvasSettings.canvasHeight);
+
       p5.noStroke();
       p5.background(0, 0, 0);
     };
@@ -57,28 +59,31 @@ const Canvas: FC<{ nfcID: number }> = ({ nfcID }) => {
     p5.draw = () => {
       p5.background(0, 0, 0); // Clear the canvas
 
-      const { topRow, midRow, botRow } = movementModifier(
-        p5,
-        canvasSettings,
-        animationModifierState.movementModifier
-      );
+      const { topRowPositionMod, midRowPositionMod, botRowPositionMod } =
+        movementModifier(
+          p5,
+          canvasSettings,
+          animationModifierState.movementModifier
+        );
 
-      const { topRowColors, midRowColors, botRowColors } = colorModifier(
+      const { topRowColorMod, midRowColorMod, botRowColorMod } = colorModifier(
         canvasSettings,
         animationModifierState.colorModifier
       );
 
-      drawRow(p5, canvasSettings, topRowColors, {
-        ...topRow,
+      drawRow(p5, canvasSettings, topRowColorMod, {
+        ...topRowPositionMod,
       });
 
-      drawRow(p5, canvasSettings, midRowColors, {
-        ...midRow,
+      drawRow(p5, canvasSettings, midRowColorMod, {
+        ...midRowPositionMod,
       });
 
-      drawRow(p5, canvasSettings, botRowColors, {
-        ...botRow,
+      drawRow(p5, canvasSettings, botRowColorMod, {
+        ...botRowPositionMod,
       });
+
+      shapeModifier(p5, animationModifierState.shapeModifier);
     };
   }
 
