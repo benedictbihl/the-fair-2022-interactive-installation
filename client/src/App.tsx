@@ -13,18 +13,7 @@ const App = () => {
     JSON.parse(localStorage.getItem("connected_IDs") ?? "[]") ?? []
   );
 
-  const handleKeyPress = useCallback((event: KeyboardEvent) => {
-    if (event.key === "c") {
-      if (confirm("Clean local storage to removed all IDs?") == true) {
-        localStorage.removeItem("connected_IDs");
-        setConnectedIDs([]);
-      }
-    }
-  }, []);
-
   useEffect(() => {
-    document.addEventListener("keydown", handleKeyPress);
-
     const socket = io("http://" + hostname + ":8080", {
       transports: ["websocket"],
     });
@@ -58,7 +47,6 @@ const App = () => {
       socket.off("connect");
       socket.off("disconnect");
       socket.off("message");
-      document.removeEventListener("keydown", handleKeyPress);
     };
   }, []);
 
@@ -70,10 +58,6 @@ const App = () => {
   return (
     <>
       <Canvas nfcID={connectedIDs[connectedIDs.length - 1]} />
-      <div className="nfc">
-        <p>Connected: {"" + isConnected}</p>
-        <div>NFC TAG ID: {connectedIDs[connectedIDs.length - 1]}</div>
-      </div>
     </>
   );
 };

@@ -10,23 +10,23 @@ export enum COLORS {
 /* ENUMS FOR ANIMATION MODIFIER */
 
 export enum COLOR_MODIFIER {
-  NO_MODIFIER = "NO_MODIFIER",
+  NO_MODIFIER = "no_modifier",
   FILL_SHAPES = "fill_shapes",
   INVERT_COLORS = "invert_colors",
 }
 
 export enum SHAPE_MODIFIER {
-  NO_MODIFIER = "NO_MODIFIER",
+  NO_MODIFIER = "no_modifier",
   PERLIN_NOISE = "perlin_noise",
 }
 
 export enum MOVEMENT_MODIFIER {
-  NO_MODIFIER = "NO_MODIFIER",
-  CHANGE_PROPORTION = "change_proportion",
-  DYNAMIC_ROWS = "dynamic_rows",
+  NO_MODIFIER = "no_modifier",
+  SINE_WAVE = "sine_wave",
+  DYNAMIC_ROW_HEIGHT = "dynamic_row_height",
 }
 
 export enum ADDITIONAL_ELEMENTS_MODIFIER {
-  NO_MODIFIER = "NO_MODIFIER",
+  NO_MODIFIER = "no_modifier",
   SHOW_COLOR_WORM = "show_color_worm",
 }

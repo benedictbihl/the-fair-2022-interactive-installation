@@ -9,6 +9,7 @@ import {
 
 export type Row = {
   ypos: number;
+  xpos: number;
   height: number;
   topRadius: number;
   botRadius: number;
