@@ -2,6 +2,13 @@ import { P5Instance } from "react-p5-wrapper";
 
 import { PIXEL_MODIFIER } from "../../../constants/enums";
 
+/**
+ * Function to modify the canvas drawings on a pixel base by turning the Canvas contents into an image.
+ *
+ * @param  {P5Instance} p5 - The p5 instance
+ * @param  {PIXEL_MODIFIER} pixelModifierState - Slice of the AnimationState that contains the pixel modifier state
+ * @returns null - Nothing needs to be returned as the canvas is modified in place
+ */
 export function pixelModifier(
   p5: P5Instance,
   pixelModifierState: PIXEL_MODIFIER

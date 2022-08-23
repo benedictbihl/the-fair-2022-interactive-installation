@@ -1,6 +1,14 @@
 import { COLOR_MODIFIER, COLORS } from "../../../constants/enums";
 import { Row } from "../../../constants/types";
 
+/**
+ * Function to modify the color of the circles and rectangles on the canvas.
+ *
+ * @param  {P5Instance} p5 - The p5 instance
+ * @param  {COLOR_MODIFIER} colorModifierState - Slice of the AnimationState that contains the color modifier state
+ * @param  {Row[]} rows - The rows we want to perform the manipulations on
+ * @returns Row - The modified rows
+ */
 export function colorModifier(
   colorModifierState: COLOR_MODIFIER,
   rows: Row[]

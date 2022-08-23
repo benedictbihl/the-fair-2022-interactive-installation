@@ -7,6 +7,14 @@ let xoff1 = 0;
 let xoff2 = 1000;
 let sinGrow = 0;
 
+/**
+ * Function to add elements to the scene in a separate canvas to the main one.
+ *
+ * @param  {P5Instance} p5 - The p5 instance
+ * @param  {CanvasSettings} canvasSettings - The canvas settings containing different base values we base our calculations on
+ * @param  {ADDITIONAL_ELEMENTS_MODIFIER} additionalElementsModifierState - Slice of the AnimationState that contains the additional elements modifier state
+ * @returns null - Nothing needs to be returned as we only draw on a new canvas
+ */
 export function additionalElementsModifier(
   p5: P5Instance,
   canvasSettings: CanvasSettings,

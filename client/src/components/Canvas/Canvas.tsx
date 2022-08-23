@@ -18,7 +18,7 @@ import { additionalElementsModifier } from "../../utils/p5/animationStateUtils/a
 import { colorModifier } from "../../utils/p5/animationStateUtils/colorModifier";
 import { movementModifier } from "../../utils/p5/animationStateUtils/movementModifier";
 import { pixelModifier } from "../../utils/p5/animationStateUtils/pixelModifier";
-import { drawRows } from "../../utils/p5/drawingUtils/drawShapes";
+import { assembleRows, drawRows } from "../../utils/p5/drawingUtils/drawShapes";
 import DebugPanel from "../DebugPanel";
 
 export const canvasSettings: CanvasSettings = {
@@ -100,24 +100,30 @@ const Canvas: FC<{ nfcID: number }> = ({ nfcID }) => {
         rectangles: [],
       };
 
-      //hand those skeletons to the movementModifier modifier to get the positions of the rectangles
-      //and the circles depending on the movementModifier selected
-      const rowsWithMovementModifications = movementModifier(
-        p5,
+      // iterate over canvasSettings.columnCount and draw a rectangle and two circles for each column
+      const rows = assembleRows(
         canvasSettings,
-        animationModifierState.movementModifier,
         topRowSkeleton,
         midRowSkeleton,
         botRowSkeleton
       );
 
-      const rowsWithColorModifications = colorModifier(
+      //hand those rows to the movementModifier to add movement to circles and rectangles
+      const rowsWithMovementMod = movementModifier(
+        p5,
+        canvasSettings,
+        animationModifierState.movementModifier,
+        rows
+      );
+
+      //hand those rows with movement mods to the colorModifier to add color to circles and rectangles
+      const rowsWithMovementAndColorMod = colorModifier(
         animationModifierState.colorModifier,
-        rowsWithMovementModifications
+        rowsWithMovementMod
       );
 
       //do the actual drawing of the shapes
-      drawRows(p5, rowsWithColorModifications);
+      drawRows(p5, rowsWithMovementAndColorMod);
 
       //this modifier does not draw elements directly, but works on a pixel base
       // -> we only call it after the drawing is finished
