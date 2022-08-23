@@ -5,49 +5,12 @@ import { CanvasSettings, Row } from "../../../constants/types";
 
 let count = 0;
 
-export function movementModifier(
-  p5: P5Instance,
+const assembleRows = (
   canvasSettings: CanvasSettings,
-  movementModifierState: MOVEMENT_MODIFIER,
   topRowSkeleton: Row,
   midRowSkeleton: Row,
   botRowSkeleton: Row
-): Row[] {
-  switch (movementModifierState) {
-    case MOVEMENT_MODIFIER.DYNAMIC_ROW_HEIGHT: {
-      count += 0.02; //get things moving
-      let heightTopRow = 2.5 + p5.cos(count) / 2;
-      let heightMidRow = 2.5 + p5.sin(count) / 2;
-      let heightBotRow = 7.7 - heightMidRow - heightTopRow;
-      let yPosMidRow =
-        heightTopRow * canvasSettings.circleSize + canvasSettings.gap;
-      let yPosBotRow =
-        yPosMidRow +
-        heightMidRow * canvasSettings.circleSize +
-        canvasSettings.gap;
-
-      topRowSkeleton.height = heightTopRow;
-      midRowSkeleton.height = heightMidRow;
-      botRowSkeleton.height = heightBotRow;
-      midRowSkeleton.ypos = yPosMidRow;
-      botRowSkeleton.ypos = yPosBotRow;
-      break;
-    }
-    case MOVEMENT_MODIFIER.SINE_WAVE: {
-      count += 0.02; //get things moving
-      let xposTopRow = 3 * p5.sin(count);
-      let xposMidrow = 4 * p5.cos(count);
-      let xposBotRow = 3 * p5.sin(count);
-
-      topRowSkeleton.xpos = xposTopRow;
-      midRowSkeleton.xpos = xposMidrow;
-      botRowSkeleton.xpos = xposBotRow;
-      break;
-    }
-    default: {
-      break;
-    }
-  }
+): Row[] => {
   // iterate over canvasSettings.columnCount and draw a rectangle and two circles for each column
   for (let i = 0; i < canvasSettings.columnCount; i++) {
     topRowSkeleton.rectangles.push({
@@ -179,6 +142,87 @@ export function movementModifier(
       ],
     });
   }
-
   return [topRowSkeleton, midRowSkeleton, botRowSkeleton];
+};
+
+export function movementModifier(
+  p5: P5Instance,
+  canvasSettings: CanvasSettings,
+  movementModifierState: MOVEMENT_MODIFIER,
+  topRowSkeleton: Row,
+  midRowSkeleton: Row,
+  botRowSkeleton: Row
+): Row[] {
+  switch (movementModifierState) {
+    case MOVEMENT_MODIFIER.DYNAMIC_ROW_HEIGHT: {
+      count += 0.02; //get things moving
+      let heightTopRow = 2.5 + p5.cos(count) / 2;
+      let heightMidRow = 2.5 + p5.sin(count) / 2;
+      let heightBotRow = 7.7 - heightMidRow - heightTopRow;
+      let yPosMidRow =
+        heightTopRow * canvasSettings.circleSize + canvasSettings.gap;
+      let yPosBotRow =
+        yPosMidRow +
+        heightMidRow * canvasSettings.circleSize +
+        canvasSettings.gap;
+
+      topRowSkeleton.height = heightTopRow;
+      midRowSkeleton.height = heightMidRow;
+      botRowSkeleton.height = heightBotRow;
+      midRowSkeleton.ypos = yPosMidRow;
+      botRowSkeleton.ypos = yPosBotRow;
+      return assembleRows(
+        canvasSettings,
+        topRowSkeleton,
+        midRowSkeleton,
+        botRowSkeleton
+      );
+    }
+    case MOVEMENT_MODIFIER.SINE_WAVE: {
+      count += 0.02; //get things moving
+      let xposTopRow = 3 * p5.sin(count);
+      let xposMidrow = 4 * p5.cos(count);
+      let xposBotRow = 3 * p5.sin(count);
+
+      topRowSkeleton.xpos = xposTopRow;
+      midRowSkeleton.xpos = xposMidrow;
+      botRowSkeleton.xpos = xposBotRow;
+      return assembleRows(
+        canvasSettings,
+        topRowSkeleton,
+        midRowSkeleton,
+        botRowSkeleton
+      );
+    }
+    /*
+     *EXAMPLE CASE: IF YOU WANT TO ACCESS THE CIRCLES OR RECTANGLES AT THIS POINT IN THE CODE, CALL assembleRows() FIRST, OTHERWISE THOSE ELEMENTS WONT BE AVAILABLE
+     */
+    // case MOVEMENT_MODIFIER.EXAMPLE: {
+    //   const rows = assembleRows( //call this first
+    //     canvasSettings,
+    //     topRowSkeleton,
+    //     midRowSkeleton,
+    //     botRowSkeleton
+    //   );
+    //   count += 0.02; //get things moving
+
+    //   let circleX = 20 * p5.sin(count); //access the circles in the rows how you want
+    //   rows.forEach((row) => {
+    //     row.rectangles.forEach((rectangle, rectIndex) => {
+    //       if (rectIndex % 2 === 0) {
+    //         rectangle.circles[1].x += circleX;
+    //       }
+    //     });
+    //   });
+    //   return rows; //return the rows with the modified circles
+    // }
+    default: {
+      return assembleRows(
+        canvasSettings,
+        topRowSkeleton,
+        midRowSkeleton,
+        botRowSkeleton
+      );
+    }
+  }
 }

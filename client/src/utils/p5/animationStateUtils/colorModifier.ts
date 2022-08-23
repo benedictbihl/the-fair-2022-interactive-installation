@@ -24,7 +24,9 @@ export function colorModifier(
       break;
     }
     case COLOR_MODIFIER.EMOJIS: {
-      // version with random emojis everyhwere
+      /*
+       *EXAMPLE VERSION WITH RANDOM EMOJIS EVERYWHERE
+       */
       // rows.forEach((row, rowIndex) => {
       //   row.rectangles.forEach((rectangle, rectIndex) => {
       //     rectangle.circles.forEach((circle, circleIndex) => {
@@ -34,8 +36,9 @@ export function colorModifier(
       //     });
       //   });
       // });
-
-      //version with targeting specific circles
+      /*
+       * VERSION WITH TARGETING SPECIFIC CIRCLES
+       */
       rows[0].rectangles[3].circles[0].emoji = "💩";
       rows[1].rectangles[6].circles[1].emoji = "💩";
       rows[2].rectangles[8].circles[0].emoji = "💩";
