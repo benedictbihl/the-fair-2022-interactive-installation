@@ -8,109 +8,177 @@ let count = 0;
 export function movementModifier(
   p5: P5Instance,
   canvasSettings: CanvasSettings,
-  movementModifierState: MOVEMENT_MODIFIER
-): { topRowPositionMod: Row; midRowPositionMod: Row; botRowPositionMod: Row } {
-  let heightTopRow = 2;
-  let yPosMidRow =
-    heightTopRow * canvasSettings.circleSize + canvasSettings.gap;
-  let heightMidRow = 4;
-  let yPosBotRow =
-    yPosMidRow + heightMidRow * canvasSettings.circleSize + canvasSettings.gap;
-  let heightBotRow = 2;
-  let xposBotRow = 0;
-  let xposMidrow = 0;
-  let xposTopRow = 0;
-
+  movementModifierState: MOVEMENT_MODIFIER,
+  topRowSkeleton: Row,
+  midRowSkeleton: Row,
+  botRowSkeleton: Row
+): Row[] {
   switch (movementModifierState) {
     case MOVEMENT_MODIFIER.DYNAMIC_ROW_HEIGHT: {
       count += 0.02; //get things moving
-      heightTopRow = 2.5 + p5.cos(count) / 2;
-      yPosMidRow =
+      let heightTopRow = 2.5 + p5.cos(count) / 2;
+      let heightMidRow = 2.5 + p5.sin(count) / 2;
+      let heightBotRow = 7.7 - heightMidRow - heightTopRow;
+      let yPosMidRow =
         heightTopRow * canvasSettings.circleSize + canvasSettings.gap;
-      heightMidRow = 2.5 + p5.sin(count) / 2;
-      yPosBotRow =
+      let yPosBotRow =
         yPosMidRow +
         heightMidRow * canvasSettings.circleSize +
         canvasSettings.gap;
-      heightBotRow = 7.7 - heightMidRow - heightTopRow;
 
-      return {
-        topRowPositionMod: {
-          ypos: 0,
-          xpos: 0,
-          height: heightTopRow,
-          topRadius: 0,
-          botRadius: 200,
-        },
-        midRowPositionMod: {
-          ypos: yPosMidRow,
-          xpos: 0,
-          height: heightMidRow,
-          topRadius: 200,
-          botRadius: 200,
-        },
-        botRowPositionMod: {
-          ypos: yPosBotRow,
-          xpos: 0,
-          height: heightBotRow,
-          topRadius: 200,
-          botRadius: 0,
-        },
-      };
+      topRowSkeleton.height = heightTopRow;
+      midRowSkeleton.height = heightMidRow;
+      botRowSkeleton.height = heightBotRow;
+      midRowSkeleton.ypos = yPosMidRow;
+      botRowSkeleton.ypos = yPosBotRow;
+      break;
     }
     case MOVEMENT_MODIFIER.SINE_WAVE: {
       count += 0.02; //get things moving
-      xposTopRow = 3 * p5.sin(count);
-      xposMidrow = 4 * p5.cos(count);
-      xposBotRow = 3 * p5.sin(count);
-      return {
-        topRowPositionMod: {
-          ypos: 0,
-          xpos: xposTopRow,
-          height: heightTopRow,
-          topRadius: 0,
-          botRadius: 200,
-        },
-        midRowPositionMod: {
-          ypos: yPosMidRow,
-          xpos: xposMidrow,
-          height: heightMidRow,
-          topRadius: 200,
-          botRadius: 200,
-        },
-        botRowPositionMod: {
-          ypos: yPosBotRow,
-          xpos: xposBotRow,
-          height: heightBotRow,
-          topRadius: 200,
-          botRadius: 0,
-        },
-      };
+      let xposTopRow = 3 * p5.sin(count);
+      let xposMidrow = 4 * p5.cos(count);
+      let xposBotRow = 3 * p5.sin(count);
+
+      topRowSkeleton.xpos = xposTopRow;
+      midRowSkeleton.xpos = xposMidrow;
+      botRowSkeleton.xpos = xposBotRow;
+      break;
     }
     default: {
-      return {
-        topRowPositionMod: {
-          ypos: 0,
-          xpos: 0,
-          height: heightTopRow,
-          topRadius: 0,
-          botRadius: 200,
-        },
-        midRowPositionMod: {
-          ypos: yPosMidRow,
-          xpos: 0,
-          height: heightMidRow,
-          topRadius: 200,
-          botRadius: 200,
-        },
-        botRowPositionMod: {
-          ypos: yPosBotRow,
-          xpos: 0,
-          height: heightBotRow,
-          topRadius: 200,
-          botRadius: 0,
-        },
-      };
+      break;
     }
   }
+  // iterate over canvasSettings.columnCount and draw a rectangle and two circles for each column
+  for (let i = 0; i < canvasSettings.columnCount; i++) {
+    topRowSkeleton.rectangles.push({
+      x:
+        canvasSettings.padding +
+        i * (canvasSettings.circleSize * canvasSettings.circleOffset) +
+        topRowSkeleton.xpos,
+      y: canvasSettings.padding + topRowSkeleton.ypos,
+      w: canvasSettings.circleSize,
+      h: canvasSettings.circleSize * topRowSkeleton.height,
+      rTop: topRowSkeleton.topRadius,
+      rBot: topRowSkeleton.botRadius,
+      line: i % 2 === 0 ? 1 : 0.4,
+      circles: [
+        {
+          x:
+            canvasSettings.circleSize / 2 +
+            canvasSettings.padding +
+            i * canvasSettings.circleSize * canvasSettings.circleOffset +
+            topRowSkeleton.xpos,
+          y:
+            canvasSettings.padding +
+            canvasSettings.circleSize / 2 +
+            topRowSkeleton.ypos,
+          r: canvasSettings.circleSize,
+          line: i % 2 === 0 ? 1 : 0.3,
+        },
+        {
+          x:
+            canvasSettings.circleSize / 2 +
+            canvasSettings.padding +
+            i * canvasSettings.circleSize * canvasSettings.circleOffset +
+            topRowSkeleton.xpos,
+          y:
+            canvasSettings.padding +
+            canvasSettings.circleSize / 2 +
+            topRowSkeleton.ypos +
+            canvasSettings.circleSize * topRowSkeleton.height -
+            canvasSettings.circleSize,
+          r: canvasSettings.circleSize,
+          line: i % 2 === 0 ? 1 : 0.3,
+        },
+      ],
+    });
+
+    midRowSkeleton.rectangles.push({
+      x:
+        canvasSettings.padding +
+        i * (canvasSettings.circleSize * canvasSettings.circleOffset) +
+        midRowSkeleton.xpos,
+      y: canvasSettings.padding + midRowSkeleton.ypos,
+      w: canvasSettings.circleSize,
+      h: canvasSettings.circleSize * midRowSkeleton.height,
+      rTop: midRowSkeleton.topRadius,
+      rBot: midRowSkeleton.botRadius,
+      line: i % 2 === 0 ? 1 : 0.4,
+      circles: [
+        {
+          x:
+            canvasSettings.circleSize / 2 +
+            canvasSettings.padding +
+            i * canvasSettings.circleSize * canvasSettings.circleOffset +
+            midRowSkeleton.xpos,
+          y:
+            canvasSettings.padding +
+            canvasSettings.circleSize / 2 +
+            midRowSkeleton.ypos,
+          r: canvasSettings.circleSize,
+          line: i % 2 === 0 ? 1 : 0.3,
+        },
+        {
+          x:
+            canvasSettings.circleSize / 2 +
+            canvasSettings.padding +
+            i * canvasSettings.circleSize * canvasSettings.circleOffset +
+            midRowSkeleton.xpos,
+          y:
+            canvasSettings.padding +
+            canvasSettings.circleSize / 2 +
+            midRowSkeleton.ypos +
+            canvasSettings.circleSize * midRowSkeleton.height -
+            canvasSettings.circleSize,
+          r: canvasSettings.circleSize,
+          line: i % 2 === 0 ? 1 : 0.3,
+        },
+      ],
+    });
+
+    botRowSkeleton.rectangles.push({
+      x:
+        canvasSettings.padding +
+        i * (canvasSettings.circleSize * canvasSettings.circleOffset) +
+        botRowSkeleton.xpos,
+      y: canvasSettings.padding + botRowSkeleton.ypos,
+      w: canvasSettings.circleSize,
+      h: canvasSettings.circleSize * botRowSkeleton.height,
+      rTop: botRowSkeleton.topRadius,
+      rBot: botRowSkeleton.botRadius,
+      line: i % 2 === 0 ? 1 : 0.4,
+      circles: [
+        {
+          x:
+            canvasSettings.circleSize / 2 +
+            canvasSettings.padding +
+            i * canvasSettings.circleSize * canvasSettings.circleOffset +
+            botRowSkeleton.xpos,
+          y:
+            canvasSettings.padding +
+            canvasSettings.circleSize / 2 +
+            botRowSkeleton.ypos,
+          r: canvasSettings.circleSize,
+          line: i % 2 === 0 ? 1 : 0.3,
+        },
+        {
+          x:
+            canvasSettings.circleSize / 2 +
+            canvasSettings.padding +
+            i * canvasSettings.circleSize * canvasSettings.circleOffset +
+            botRowSkeleton.xpos,
+          y:
+            canvasSettings.padding +
+            canvasSettings.circleSize / 2 +
+            botRowSkeleton.ypos +
+            canvasSettings.circleSize * botRowSkeleton.height -
+            canvasSettings.circleSize,
+          r: canvasSettings.circleSize,
+          line: i % 2 === 0 ? 1 : 0.3,
+        },
+      ],
+    });
+  }
+
+  return [topRowSkeleton, midRowSkeleton, botRowSkeleton];
 }

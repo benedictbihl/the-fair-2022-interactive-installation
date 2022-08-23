@@ -16,7 +16,7 @@ export enum COLOR_MODIFIER {
   INVERT_COLORS = "invert_colors", //TODO
 }
 
-export enum SHAPE_MODIFIER {
+export enum PIXEL_MODIFIER {
   NO_MODIFIER = "no_modifier",
   PERLIN_NOISE = "perlin_noise", //TODO
   PIXEL_SHIFT = "pixel_shift",

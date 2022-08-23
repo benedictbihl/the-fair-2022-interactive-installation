@@ -7,19 +7,24 @@ import {
   ADDITIONAL_ELEMENTS_MODIFIER,
   COLOR_MODIFIER,
   MOVEMENT_MODIFIER,
-  SHAPE_MODIFIER,
+  PIXEL_MODIFIER,
 } from "../../constants/enums";
-import { AnimationModifierState, CanvasSettings } from "../../constants/types";
+import {
+  AnimationModifierState,
+  CanvasSettings,
+  Row,
+} from "../../constants/types";
 import { additionalElementsModifier } from "../../utils/p5/animationStateUtils/additionalElementsModifier";
 import { colorModifier } from "../../utils/p5/animationStateUtils/colorModifier";
 import { movementModifier } from "../../utils/p5/animationStateUtils/movementModifier";
-import { shapeModifier } from "../../utils/p5/animationStateUtils/shapeModifier";
-import { drawRow } from "../../utils/p5/drawingUtils/drawShapes";
+import { pixelModifier } from "../../utils/p5/animationStateUtils/pixelModifier";
+import { drawRows } from "../../utils/p5/drawingUtils/drawShapes";
 import DebugPanel from "../DebugPanel";
 
-const canvasSettings: CanvasSettings = {
+export const canvasSettings: CanvasSettings = {
   scaleFactor: 5,
   columnCount: 15,
+  rowCount: 3,
   gap: 10,
   get padding() {
     return 4 * this.scaleFactor;
@@ -42,7 +47,7 @@ const Canvas: FC<{ nfcID: number }> = ({ nfcID }) => {
   const [animationModifierState, setAnimationModifierState] =
     useState<AnimationModifierState>({
       colorModifier: COLOR_MODIFIER.NO_MODIFIER,
-      shapeModifier: SHAPE_MODIFIER.NO_MODIFIER,
+      pixelModifier: PIXEL_MODIFIER.NO_MODIFIER,
       movementModifier: MOVEMENT_MODIFIER.DYNAMIC_ROW_HEIGHT,
       additionalElementsModifier: ADDITIONAL_ELEMENTS_MODIFIER.NO_MODIFIER,
     });
@@ -51,43 +56,76 @@ const Canvas: FC<{ nfcID: number }> = ({ nfcID }) => {
   function sketch(p5: P5Instance) {
     p5.setup = () => {
       p5.createCanvas(canvasSettings.canvasWidth, canvasSettings.canvasHeight);
-
       p5.noStroke();
-      p5.background(0, 0, 0);
     };
 
     p5.draw = () => {
-      p5.background(0, 0, 0); // Clear the canvas
+      p5.background(0, 0, 0);
 
-      const { topRowPositionMod, midRowPositionMod, botRowPositionMod } =
-        movementModifier(
-          p5,
-          canvasSettings,
-          animationModifierState.movementModifier
-        );
+      // set up the row skeletons without rectangles or circles
+      const heightTopRow = 2;
+      const yPosMidRow =
+        heightTopRow * canvasSettings.circleSize + canvasSettings.gap;
+      const heightMidRow = 4;
+      const yPosBotRow =
+        yPosMidRow +
+        heightMidRow * canvasSettings.circleSize +
+        canvasSettings.gap;
+      const heightBotRow = 2;
 
-      const { topRowColorMod, midRowColorMod, botRowColorMod } = colorModifier(
+      const topRowSkeleton: Row = {
+        ypos: 0,
+        xpos: 0,
+        height: heightTopRow,
+        topRadius: 0,
+        botRadius: 200,
+        rectangles: [],
+      };
+
+      const midRowSkeleton: Row = {
+        ypos: yPosMidRow,
+        xpos: 0,
+        height: heightMidRow,
+        topRadius: 200,
+        botRadius: 200,
+        rectangles: [],
+      };
+
+      const botRowSkeleton: Row = {
+        ypos: yPosBotRow,
+        xpos: 0,
+        height: heightBotRow,
+        topRadius: 200,
+        botRadius: 0,
+        rectangles: [],
+      };
+
+      //hand those skeletons to the movementModifier modifier to get the positions of the rectangles
+      //and the circles depending on the movementModifier selected
+      const rowsWithMovementModifications = movementModifier(
+        p5,
         canvasSettings,
-        animationModifierState.colorModifier
+        animationModifierState.movementModifier,
+        topRowSkeleton,
+        midRowSkeleton,
+        botRowSkeleton
       );
 
-      drawRow(p5, canvasSettings, topRowColorMod, {
-        ...topRowPositionMod,
-      });
+      const rowsWithColorModifications = colorModifier(
+        animationModifierState.colorModifier,
+        rowsWithMovementModifications
+      );
 
-      drawRow(p5, canvasSettings, midRowColorMod, {
-        ...midRowPositionMod,
-      });
+      //do the actual drawing of the shapes
+      drawRows(p5, rowsWithColorModifications);
 
-      drawRow(p5, canvasSettings, botRowColorMod, {
-        ...botRowPositionMod,
-      });
-
-      shapeModifier(p5, animationModifierState.shapeModifier);
+      //this modifier does not draw elements directly, but works on a pixel base
+      // -> we only call it after the drawing is finished
+      pixelModifier(p5, animationModifierState.pixelModifier);
     };
   }
 
-  // add additional elements like the colorworm on top
+  // add additional elements like the colorworm on top of the base sketch
   function additionalElements(p5: P5Instance) {
     p5.setup = () => {
       p5.createCanvas(canvasSettings.canvasWidth, canvasSettings.canvasHeight);

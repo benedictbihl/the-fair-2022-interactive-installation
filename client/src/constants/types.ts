@@ -3,7 +3,7 @@ import {
   COLOR_MODIFIER,
   COLORS,
   MOVEMENT_MODIFIER,
-  SHAPE_MODIFIER,
+  PIXEL_MODIFIER,
 } from "./enums";
 
 /* TYPINGS FOR SHAPES */
@@ -14,6 +14,7 @@ export type Row = {
   height: number;
   topRadius: number;
   botRadius: number;
+  rectangles: Rectangle[];
 };
 
 export type Circle = {
@@ -21,6 +22,8 @@ export type Circle = {
   y: number;
   r: number;
   line: number;
+  color?: COLORS;
+  emoji?: string;
 };
 
 export type Rectangle = {
@@ -31,19 +34,15 @@ export type Rectangle = {
   rTop: number;
   rBot: number;
   line: number;
+  circles: Circle[];
 };
 
 /* TYPINGS FOR P5 SPECIFIC STUFF */
 
-export type Rgb = {
-  r: number;
-  g: number;
-  b: number;
-};
-
 export type CanvasSettings = {
   scaleFactor: number;
   columnCount: number;
+  rowCount: number;
   gap: number;
   padding: number;
   circleSize: number;
@@ -56,21 +55,7 @@ export type CanvasSettings = {
 
 export type AnimationModifierState = {
   colorModifier: COLOR_MODIFIER;
-  shapeModifier: SHAPE_MODIFIER;
+  pixelModifier: PIXEL_MODIFIER;
   movementModifier: MOVEMENT_MODIFIER;
   additionalElementsModifier: ADDITIONAL_ELEMENTS_MODIFIER;
-};
-
-export type CircleModification = {
-  color?: COLORS;
-  emoji?: string;
-};
-
-export type RectangleModification = {
-  color?: COLORS;
-};
-
-export type ShapeModification = {
-  circle?: CircleModification;
-  rectangle?: RectangleModification;
 };

@@ -1,13 +1,13 @@
 import { P5Instance } from "react-p5-wrapper";
 
-import { SHAPE_MODIFIER } from "../../../constants/enums";
+import { PIXEL_MODIFIER } from "../../../constants/enums";
 
-export function shapeModifier(
+export function pixelModifier(
   p5: P5Instance,
-  shapeModifierState: SHAPE_MODIFIER
+  pixelModifierState: PIXEL_MODIFIER
 ) {
-  switch (shapeModifierState) {
-    case SHAPE_MODIFIER.PIXEL_SHIFT:
+  switch (pixelModifierState) {
+    case PIXEL_MODIFIER.PIXEL_SHIFT:
       applyPixelShift(p5);
       break;
     default:
