@@ -1,5 +1,25 @@
+import memoizeOne from "memoize-one";
+
 import { COLOR_MODIFIER, COLORS } from "../../../constants/enums";
 import { Row } from "../../../constants/types";
+
+// generate random colors beforehand and memoize the result to avoid color flickering on each redraw
+function colorMap() {
+  const randomColors = [];
+  for (let i = 0; i < 150; i++) {
+    // random length, enough to fill the screen
+    randomColors.push(
+      COLORS[
+        Object.keys(COLORS)[
+          Math.floor(Math.random() * Object.keys(COLORS).length)
+        ] as keyof typeof COLORS
+      ]
+    );
+  }
+  return randomColors;
+}
+
+const memoizedColorMap = memoizeOne(colorMap);
 
 /**
  * Function to modify the color of the circles and rectangles on the canvas.
@@ -15,17 +35,14 @@ export function colorModifier(
 ): Row[] {
   switch (colorModifierState) {
     case COLOR_MODIFIER.FILL_CIRCLES: {
-      const colorValues = Object.keys(COLORS);
-
+      let counter = 0;
       rows.forEach((row, rowIndex) => {
+        counter++;
         row.rectangles.forEach((rectangle, rectIndex) => {
+          counter++;
           rectangle.circles.forEach((circle, circleIndex) => {
-            circle.color =
-              COLORS[
-                Object.keys(COLORS)[
-                  Math.floor(Math.random() * Object.keys(COLORS).length)
-                ] as keyof typeof COLORS
-              ];
+            counter++;
+            circle.color = memoizedColorMap()[counter];
           });
         });
       });

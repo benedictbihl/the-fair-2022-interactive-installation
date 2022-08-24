@@ -13,6 +13,7 @@
     "prepare": "cd .. && husky install client/.husky"
   },
   "dependencies": {
+    "memoize-one": "^6.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-p5-wrapper": "^3.3.0",
