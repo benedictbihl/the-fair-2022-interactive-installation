@@ -103,6 +103,7 @@ const DebugPanel: FC<IDebugPanelProps> = ({
             Dynamic Row Heights
           </option>
           <option value={MOVEMENT_MODIFIER.SINE_WAVE}> Sine Wave</option>
+          <option value={MOVEMENT_MODIFIER.SINE_CIRCLES}> Sine Circles</option>
         </select>
       </label>
       <label htmlFor="shape-mod">

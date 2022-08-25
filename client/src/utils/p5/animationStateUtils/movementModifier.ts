@@ -5,6 +5,15 @@ import { CanvasSettings, Row } from "../../../constants/types";
 import { assembleRows } from "../drawingUtils/drawShapes";
 
 let count = 0;
+
+let angles: number[] = [];
+let angleV: number[] = [];
+
+for (let i = 0; i < 15; i++) {
+  angles.push(0);
+  angleV.push(0.01 + i / 700);
+}
+
 /**
  * Function to modify the movement of the circles and rectangles on the canvas.
  *
@@ -14,6 +23,7 @@ let count = 0;
  * @param  {Row[]} rows - The rows we want to perform the manipulations on
  * @returns Row - The modified rows
  */
+
 export function movementModifier(
   p5: P5Instance,
   canvasSettings: CanvasSettings,
@@ -40,6 +50,7 @@ export function movementModifier(
       rows[2].ypos = yPosBotRow;
       return assembleRows(canvasSettings, rows[0], rows[1], rows[2]);
     }
+
     case MOVEMENT_MODIFIER.SINE_WAVE: {
       count += 0.02; //get things moving
       let xposTopRow = 3 * p5.sin(count);
@@ -54,19 +65,40 @@ export function movementModifier(
     /*
      *EXAMPLE CASE: IF YOU WANT TO ACCESS THE CIRCLES OR RECTANGLES AT THIS POINT IN THE CODE
      */
-    // case MOVEMENT_MODIFIER.EXAMPLE: {
-    //   count += 0.02; //get things moving
 
-    //   let circleX = 20 * p5.sin(count); //access the circles in the rows how you want
-    //   rows.forEach((row) => {
-    //     row.rectangles.forEach((rectangle, rectIndex) => {
-    //       if (rectIndex % 2 === 0) {
-    //         rectangle.circles[1].x += circleX;
-    //       }
-    //     });
-    //   });
-    //   return assembleRows(canvasSettings, rows[0], rows[1], rows[2]); //return the rows with the modified circles
-    // }
+    case MOVEMENT_MODIFIER.SINE_CIRCLES: {
+      count += 0.02; //get things moving
+
+      let circleX = 20 * p5.sin(count); //access the circles in the rows how you want
+
+      let calcMaxTop = rows[1].rectangles[0].circles[0].y;
+      let calcMaxBot = rows[1].rectangles[0].circles[1].y;
+
+      rows[1].rectangles.forEach((rectangle, rectIndex) => {
+        let circleYSinTop = p5.map(
+          p5.sin(angles[rectIndex]),
+          -1,
+          1,
+          calcMaxTop,
+          calcMaxBot
+        );
+        let circleYSinBot = p5.map(
+          p5.sin(angles[rectIndex]),
+          1,
+          -1,
+          calcMaxTop,
+          calcMaxBot
+        );
+
+        rectangle.circles[0].y = circleYSinTop;
+        rectangle.circles[1].y = circleYSinBot;
+
+        angles[rectIndex] += angleV[rectIndex];
+      });
+
+      return rows; //return the rows with the modified circles
+    }
+
     default: {
       return rows;
     }
