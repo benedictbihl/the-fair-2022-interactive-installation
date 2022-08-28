@@ -27,7 +27,7 @@ for (let i = 0; i < 15; i++) {
 export function movementModifier(
   p5: P5Instance,
   canvasSettings: CanvasSettings,
-  movementModifierState: MOVEMENT_MODIFIER,
+  movementModifierState: MOVEMENT_MODIFIER | undefined,
   rows: Row[]
 ): Row[] {
   switch (movementModifierState) {
@@ -62,9 +62,6 @@ export function movementModifier(
       rows[2].xpos = xposBotRow;
       return assembleRows(canvasSettings, rows[0], rows[1], rows[2]);
     }
-    /*
-     *EXAMPLE CASE: IF YOU WANT TO ACCESS THE CIRCLES OR RECTANGLES AT THIS POINT IN THE CODE
-     */
 
     case MOVEMENT_MODIFIER.SINE_CIRCLES: {
       count += 0.02; //get things moving

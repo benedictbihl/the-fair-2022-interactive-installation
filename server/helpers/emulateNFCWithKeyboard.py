@@ -4,14 +4,19 @@ import random
 import string
 
 
-def id_generator(size=3, chars=string.digits):
+def id_generator(size=8, chars=string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
 
+# array of 8 ids
+ids = [id_generator(), id_generator(), id_generator(), id_generator(),
+       id_generator(), id_generator(), id_generator(), id_generator()]
+
+
 async def emulate_nfc_tag(sio):
-    generated_id = id_generator()
-    print("sending out nfc id", generated_id)
-    await sio.send(generated_id)
+    # send out random id
+    await sio.send(random.choice(ids))
+    print("sending out nfc id")
 
 
 def on_press(key, sio, loop):
@@ -20,7 +25,6 @@ def on_press(key, sio, loop):
         coro = emulate_nfc_tag(sio)
         # Submit the coroutine to a given loop
         asyncio.run_coroutine_threadsafe(coro, loop)
-        # asyncio.run(emulate_nfc_tag())
     if key == keyboard.Key.esc:
         # Stop listener
         return False

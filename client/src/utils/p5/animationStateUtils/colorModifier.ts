@@ -30,7 +30,7 @@ const memoizedColorMap = memoizeOne(colorMap);
  * @returns Row - The modified rows
  */
 export function colorModifier(
-  colorModifierState: COLOR_MODIFIER,
+  colorModifierState: COLOR_MODIFIER | undefined,
   rows: Row[]
 ): Row[] {
   switch (colorModifierState) {

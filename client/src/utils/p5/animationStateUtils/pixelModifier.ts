@@ -11,7 +11,7 @@ import { PIXEL_MODIFIER } from "../../../constants/enums";
  */
 export function pixelModifier(
   p5: P5Instance,
-  pixelModifierState: PIXEL_MODIFIER
+  pixelModifierState: PIXEL_MODIFIER | undefined
 ) {
   switch (pixelModifierState) {
     case PIXEL_MODIFIER.PIXEL_SHIFT:

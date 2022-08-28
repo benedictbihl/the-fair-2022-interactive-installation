@@ -18,7 +18,7 @@ let sinGrow = 0;
 export function additionalElementsModifier(
   p5: P5Instance,
   canvasSettings: CanvasSettings,
-  additionalElementsModifierState: ADDITIONAL_ELEMENTS_MODIFIER
+  additionalElementsModifierState: ADDITIONAL_ELEMENTS_MODIFIER | undefined
 ) {
   switch (additionalElementsModifierState) {
     case ADDITIONAL_ELEMENTS_MODIFIER.SHOW_COLOR_WORM:
