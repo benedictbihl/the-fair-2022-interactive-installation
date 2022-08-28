@@ -54,8 +54,8 @@ export type CanvasSettings = {
 /* TYPINGS FOR ANIMATION MODIFIER */
 
 export type AnimationModifierState = {
-  colorModifier: COLOR_MODIFIER;
-  pixelModifier: PIXEL_MODIFIER;
-  movementModifier: MOVEMENT_MODIFIER;
-  additionalElementsModifier: ADDITIONAL_ELEMENTS_MODIFIER;
+  colorModifier: COLOR_MODIFIER | undefined;
+  pixelModifier: PIXEL_MODIFIER | undefined;
+  movementModifier: MOVEMENT_MODIFIER | undefined;
+  additionalElementsModifier: ADDITIONAL_ELEMENTS_MODIFIER | undefined;
 };

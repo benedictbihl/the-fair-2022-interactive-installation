@@ -10,7 +10,7 @@ import {
 } from "../../constants/enums";
 import { AnimationModifierState } from "../../constants/types";
 interface IDebugPanelProps {
-  nfcID: number;
+  nfcID?: number;
   animationModifierState: AnimationModifierState;
   setAnimationModifierState: (
     animationModifierState: AnimationModifierState
@@ -27,8 +27,15 @@ const DebugPanel: FC<IDebugPanelProps> = ({
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
       if (event.key === "c") {
-        if (confirm("Clean local storage to removed all IDs?") == true) {
-          localStorage.removeItem("connected_IDs");
+        if (
+          confirm(
+            "Clean local storage to remove all IDs and the animationState?"
+          ) == true
+        ) {
+          localStorage.removeItem("IDModifierMap");
+          localStorage.removeItem("animationModifierState");
+          // reload page to reset state
+          window.location.reload();
         }
       } else if (event.key === "d") {
         setShowPanel(!showPanel);
@@ -38,7 +45,6 @@ const DebugPanel: FC<IDebugPanelProps> = ({
   );
 
   useEffect(() => {
-    console.log(showPanel);
     document.addEventListener("keydown", handleKeyPress);
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
@@ -53,7 +59,6 @@ const DebugPanel: FC<IDebugPanelProps> = ({
           id="colorworm"
           value={animationModifierState.additionalElementsModifier}
           onChange={(e) => {
-            console.log(e.target.value);
             setAnimationModifierState({
               ...animationModifierState,
               additionalElementsModifier: e.target
@@ -61,12 +66,12 @@ const DebugPanel: FC<IDebugPanelProps> = ({
             });
           }}
         >
-          <option value={ADDITIONAL_ELEMENTS_MODIFIER.NO_MODIFIER}>
-            No Modifier
-          </option>
-          <option value={ADDITIONAL_ELEMENTS_MODIFIER.SHOW_COLOR_WORM}>
-            Show Color Worm
-          </option>
+          <option value={undefined}>No Modifier</option>
+          {Object.values(ADDITIONAL_ELEMENTS_MODIFIER).map((value) => (
+            <option key={value} value={value}>
+              {value}
+            </option>
+          ))}
         </select>
       </label>
       <label htmlFor="fillCircles">
@@ -81,9 +86,12 @@ const DebugPanel: FC<IDebugPanelProps> = ({
             });
           }}
         >
-          <option value={COLOR_MODIFIER.NO_MODIFIER}>No Modifier</option>
-          <option value={COLOR_MODIFIER.FILL_CIRCLES}>Fill Circles</option>
-          <option value={COLOR_MODIFIER.EMOJIS}>Emojis</option>
+          <option value={undefined}>No Modifier</option>
+          {Object.values(COLOR_MODIFIER).map((value) => (
+            <option key={value} value={value}>
+              {value}
+            </option>
+          ))}
         </select>
       </label>
       <label htmlFor="dynrowheights">
@@ -98,12 +106,12 @@ const DebugPanel: FC<IDebugPanelProps> = ({
             });
           }}
         >
-          <option value={MOVEMENT_MODIFIER.NO_MODIFIER}>No Modifier</option>
-          <option value={MOVEMENT_MODIFIER.DYNAMIC_ROW_HEIGHT}>
-            Dynamic Row Heights
-          </option>
-          <option value={MOVEMENT_MODIFIER.SINE_WAVE}> Sine Wave</option>
-          <option value={MOVEMENT_MODIFIER.SINE_CIRCLES}> Sine Circles</option>
+          <option value={undefined}>No Modifier</option>
+          {Object.values(MOVEMENT_MODIFIER).map((value) => (
+            <option key={value} value={value}>
+              {value}
+            </option>
+          ))}
         </select>
       </label>
       <label htmlFor="shape-mod">
@@ -118,8 +126,12 @@ const DebugPanel: FC<IDebugPanelProps> = ({
             });
           }}
         >
-          <option value={PIXEL_MODIFIER.NO_MODIFIER}>No Modifier</option>
-          <option value={PIXEL_MODIFIER.PIXEL_SHIFT}>Pixel Shifting</option>
+          <option value={undefined}>No Modifier</option>
+          {Object.values(PIXEL_MODIFIER).map((value) => (
+            <option key={value} value={value}>
+              {value}
+            </option>
+          ))}
         </select>
       </label>
       <br />

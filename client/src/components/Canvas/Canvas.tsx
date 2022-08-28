@@ -1,14 +1,8 @@
 import "./Canvas.css";
 
-import { FC, useState } from "react";
+import { FC } from "react";
 import { P5Instance, ReactP5Wrapper } from "react-p5-wrapper";
 
-import {
-  ADDITIONAL_ELEMENTS_MODIFIER,
-  COLOR_MODIFIER,
-  MOVEMENT_MODIFIER,
-  PIXEL_MODIFIER,
-} from "../../constants/enums";
 import {
   AnimationModifierState,
   CanvasSettings,
@@ -19,7 +13,6 @@ import { colorModifier } from "../../utils/p5/animationStateUtils/colorModifier"
 import { movementModifier } from "../../utils/p5/animationStateUtils/movementModifier";
 import { pixelModifier } from "../../utils/p5/animationStateUtils/pixelModifier";
 import { assembleRows, drawRows } from "../../utils/p5/drawingUtils/drawShapes";
-import DebugPanel from "../DebugPanel";
 
 export const canvasSettings: CanvasSettings = {
   scaleFactor: 5,
@@ -43,15 +36,9 @@ export const canvasSettings: CanvasSettings = {
   circleOffset: 0.6,
 };
 
-const Canvas: FC<{ nfcID: number }> = ({ nfcID }) => {
-  const [animationModifierState, setAnimationModifierState] =
-    useState<AnimationModifierState>({
-      colorModifier: COLOR_MODIFIER.NO_MODIFIER,
-      pixelModifier: PIXEL_MODIFIER.NO_MODIFIER,
-      movementModifier: MOVEMENT_MODIFIER.DYNAMIC_ROW_HEIGHT,
-      additionalElementsModifier: ADDITIONAL_ELEMENTS_MODIFIER.NO_MODIFIER,
-    });
-
+const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
+  animationModifierState,
+}) => {
   // draw the base sketch
   function sketch(p5: P5Instance) {
     p5.setup = () => {
@@ -149,17 +136,10 @@ const Canvas: FC<{ nfcID: number }> = ({ nfcID }) => {
   }
 
   return (
-    <>
-      <DebugPanel
-        nfcID={nfcID}
-        animationModifierState={animationModifierState}
-        setAnimationModifierState={setAnimationModifierState}
-      />
-      <div className="canvasWrapper">
-        <ReactP5Wrapper sketch={sketch} />
-        <ReactP5Wrapper sketch={additionalElements} />
-      </div>
-    </>
+    <div className="canvasWrapper">
+      <ReactP5Wrapper sketch={sketch} />
+      <ReactP5Wrapper sketch={additionalElements} />
+    </div>
   );
 };
 

@@ -10,26 +10,22 @@ export enum COLORS {
 /* ENUMS FOR ANIMATION MODIFIER */
 
 export enum COLOR_MODIFIER {
-  NO_MODIFIER = "no_modifier",
-  FILL_CIRCLES = "fill_circles",
-  EMOJIS = "emojis",
-  INVERT_COLORS = "invert_colors", //TODO
+  FILL_CIRCLES = "Fill Circles",
+  EMOJIS = "Emojis",
+  // INVERT_COLORS = "invert_colors", //TODO
 }
 
 export enum PIXEL_MODIFIER {
-  NO_MODIFIER = "no_modifier",
-  PERLIN_NOISE = "perlin_noise", //TODO
-  PIXEL_SHIFT = "pixel_shift",
+  // PERLIN_NOISE = "perlin_noise", //TODO
+  PIXEL_SHIFT = "Pixel Shift",
 }
 
 export enum MOVEMENT_MODIFIER {
-  NO_MODIFIER = "no_modifier",
-  SINE_WAVE = "sine_wave",
-  DYNAMIC_ROW_HEIGHT = "dynamic_row_height",
-  SINE_CIRCLES = "sine_circles",
+  SINE_WAVE = "Sine Wave",
+  DYNAMIC_ROW_HEIGHT = "Dynamic Row Height",
+  SINE_CIRCLES = "Sine Circles",
 }
 
 export enum ADDITIONAL_ELEMENTS_MODIFIER {
-  NO_MODIFIER = "no_modifier",
-  SHOW_COLOR_WORM = "show_color_worm",
+  SHOW_COLOR_WORM = "Show Color Worm",
 }
