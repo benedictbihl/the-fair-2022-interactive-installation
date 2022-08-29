@@ -54,11 +54,6 @@ const DebugPanel: FC<IDebugPanelProps> = ({
 
   return showPanel ? (
     <div className="debugPanel">
-      
-
-
-
-
       <label htmlFor="shape">
         Shape Modifier
         <select
@@ -67,8 +62,7 @@ const DebugPanel: FC<IDebugPanelProps> = ({
           onChange={(e) => {
             setAnimationModifierState({
               ...animationModifierState,
-              shapeModifier: e.target
-                .value as SHAPE_MODIFIER,
+              shapeModifier: e.target.value as SHAPE_MODIFIER,
             });
           }}
         >
@@ -80,16 +74,6 @@ const DebugPanel: FC<IDebugPanelProps> = ({
           ))}
         </select>
       </label>
-
-
-
-
-
-
-
-
-
-
 
       <label htmlFor="colorworm">
         Additional Elements Mod.
