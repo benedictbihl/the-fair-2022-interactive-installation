@@ -9,6 +9,8 @@ let count = 0;
 let angles: number[] = [];
 let angleV: number[] = [];
 
+let savedPositions: number[] = [];
+
 for (let i = 0; i < 15; i++) {
   angles.push(0);
   angleV.push(0.01 + i / 700);
@@ -66,8 +68,6 @@ export function movementModifier(
     case MOVEMENT_MODIFIER.SINE_CIRCLES: {
       count += 0.02; //get things moving
 
-      let circleX = 20 * p5.sin(count); //access the circles in the rows how you want
-
       let calcMaxTop = rows[1].rectangles[0].circles[0].y;
       let calcMaxBot = rows[1].rectangles[0].circles[1].y;
 
@@ -91,6 +91,52 @@ export function movementModifier(
         rectangle.circles[1].y = circleYSinBot;
 
         angles[rectIndex] += angleV[rectIndex];
+      });
+
+      return rows; //return the rows with the modified circles
+    }
+
+    case MOVEMENT_MODIFIER.SPECTRUM: {
+      const speed = 0.8; // speed 0-1
+      const randomPushUp = 0.1; // randomly push bubbles up 0-1
+      const traceMin = 5; // min distance of following bubble
+      const traceMax = 50; // max distance of following bubble
+
+      let calcMaxTop = rows[1].rectangles[0].circles[0].y;
+      let calcMaxBot = rows[1].rectangles[0].circles[1].y;
+
+      rows[1].rectangles.forEach((rectangle, rectIndex) => {
+        const r = p5.random(0, 100);
+        const randomPositionY = p5.map(r, 0, 100, calcMaxTop, calcMaxBot);
+
+        let currentPosY = savedPositions[rectIndex];
+        if (typeof currentPosY === "undefined") currentPosY = calcMaxBot;
+
+        const currentSpeed = currentPosY / p5.map(speed, 0.1, 1, 500, 1);
+        let newPositionY = currentPosY + currentSpeed;
+
+        let pushUp = false;
+        if (
+          p5.random(0.1, 1) <= randomPushUp &&
+          currentPosY > randomPositionY
+        ) {
+          pushUp = true;
+        }
+
+        if (currentPosY >= calcMaxBot || pushUp) newPositionY = randomPositionY;
+
+        const trace = p5.map(
+          newPositionY,
+          calcMaxTop,
+          calcMaxBot,
+          traceMin,
+          traceMax
+        );
+
+        rectangle.circles[0].y = newPositionY;
+        rectangle.circles[1].y = newPositionY - trace;
+
+        savedPositions[rectIndex] = newPositionY;
       });
 
       return rows; //return the rows with the modified circles

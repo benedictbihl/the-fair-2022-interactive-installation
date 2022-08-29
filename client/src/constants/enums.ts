@@ -24,6 +24,7 @@ export enum MOVEMENT_MODIFIER {
   SINE_WAVE = "Sine Wave",
   DYNAMIC_ROW_HEIGHT = "Dynamic Row Height",
   SINE_CIRCLES = "Sine Circles",
+  SPECTRUM = "Spectrum",
 }
 
 export enum ADDITIONAL_ELEMENTS_MODIFIER {
