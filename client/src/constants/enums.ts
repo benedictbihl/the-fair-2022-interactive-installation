@@ -28,6 +28,10 @@ export enum MOVEMENT_MODIFIER {
   SPECTRUM = "Spectrum",
 }
 
+export enum SHAPE_MODIFIER {
+  SINE_GROW_SHRINK = "Sine Grow Shrink",
+}
+
 export enum ADDITIONAL_ELEMENTS_MODIFIER {
   SHOW_COLOR_WORM = "Show Color Worm",
 }

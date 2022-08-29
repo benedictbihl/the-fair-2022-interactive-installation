@@ -4,6 +4,7 @@ import {
   COLORS,
   MOVEMENT_MODIFIER,
   PIXEL_MODIFIER,
+  SHAPE_MODIFIER,
 } from "./enums";
 
 /* TYPINGS FOR SHAPES */
@@ -55,6 +56,7 @@ export type CanvasSettings = {
 /* TYPINGS FOR ANIMATION MODIFIER */
 
 export type AnimationModifierState = {
+  shapeModifier: SHAPE_MODIFIER | undefined;
   colorModifier: COLOR_MODIFIER | undefined;
   pixelModifier: PIXEL_MODIFIER | undefined;
   movementModifier: MOVEMENT_MODIFIER | undefined;

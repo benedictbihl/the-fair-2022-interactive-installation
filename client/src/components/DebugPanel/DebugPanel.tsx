@@ -7,6 +7,7 @@ import {
   COLOR_MODIFIER,
   MOVEMENT_MODIFIER,
   PIXEL_MODIFIER,
+  SHAPE_MODIFIER,
 } from "../../constants/enums";
 import { AnimationModifierState } from "../../constants/types";
 interface IDebugPanelProps {
@@ -53,6 +54,43 @@ const DebugPanel: FC<IDebugPanelProps> = ({
 
   return showPanel ? (
     <div className="debugPanel">
+      
+
+
+
+
+      <label htmlFor="shape">
+        Shape Modifier
+        <select
+          id="shape"
+          value={animationModifierState.shapeModifier}
+          onChange={(e) => {
+            setAnimationModifierState({
+              ...animationModifierState,
+              shapeModifier: e.target
+                .value as SHAPE_MODIFIER,
+            });
+          }}
+        >
+          <option value={undefined}>No Modifier</option>
+          {Object.values(SHAPE_MODIFIER).map((value) => (
+            <option key={value} value={value}>
+              {value}
+            </option>
+          ))}
+        </select>
+      </label>
+
+
+
+
+
+
+
+
+
+
+
       <label htmlFor="colorworm">
         Additional Elements Mod.
         <select
