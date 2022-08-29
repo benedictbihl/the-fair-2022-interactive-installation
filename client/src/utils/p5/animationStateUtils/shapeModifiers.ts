@@ -6,7 +6,6 @@ import { assembleRows } from "../drawingUtils/drawShapes";
 
 let count = 0;
 
-
 /**
  * Function to modify the movement of the circles and rectangles on the canvas.
  *
@@ -24,7 +23,6 @@ export function shapeModifier(
   rows: Row[]
 ): Row[] {
   switch (shapeModifierState) {
-
     case SHAPE_MODIFIER.SINE_GROW_SHRINK: {
       count += 0.02; //get things moving
       let heightTopRow = 2.5 + p5.cos(count) / 2;
