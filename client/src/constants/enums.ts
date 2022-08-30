@@ -11,13 +11,14 @@ export enum COLORS {
 
 export enum COLOR_MODIFIER {
   FILL_CIRCLES = "Fill Circles",
+  FILL_RECTS_AND_CIRCLES = "Fill Rectangles and Circles",
   EMOJIS = "Emojis",
-  // INVERT_COLORS = "invert_colors", //TODO
 }
 
 export enum PIXEL_MODIFIER {
   // PERLIN_NOISE = "perlin_noise", //TODO
   PIXEL_SHIFT = "Pixel Shift",
+  INVERT_COLORS = "Invert Colors",
 }
 
 export enum MOVEMENT_MODIFIER {

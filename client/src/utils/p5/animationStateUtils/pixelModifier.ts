@@ -13,12 +13,21 @@ export function pixelModifier(
   p5: P5Instance,
   pixelModifierState: PIXEL_MODIFIER | undefined
 ) {
+  document.querySelector("html")?.classList.remove("invert"); // in case previous color modifier was invert, remove it
+
   switch (pixelModifierState) {
-    case PIXEL_MODIFIER.PIXEL_SHIFT:
+    case PIXEL_MODIFIER.PIXEL_SHIFT: {
       applyPixelShift(p5);
       break;
-    default:
-      return null;
+    }
+    case PIXEL_MODIFIER.INVERT_COLORS: {
+      //apply invert filter to html dom element
+      document.querySelector("html")?.classList.add("invert");
+      break;
+    }
+    default: {
+      break;
+    }
   }
 }
 
