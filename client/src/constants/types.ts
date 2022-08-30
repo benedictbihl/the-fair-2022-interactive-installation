@@ -34,6 +34,7 @@ export type Rectangle = {
   rTop: number;
   rBot: number;
   line: number;
+  color?: COLORS;
   circles: Circle[];
 };
 
