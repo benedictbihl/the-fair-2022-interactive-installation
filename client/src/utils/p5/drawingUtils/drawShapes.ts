@@ -17,15 +17,10 @@ import {
 export const drawRows = (p5: P5Instance, rows: Row[]) => {
   rows.forEach((row) => {
     row.rectangles.forEach((rectangle) => {
-      rectangle.circles.forEach((circle) => {
-        _drawCircle(
-          p5,
-          circle
-          // shapeModification.get(JSON.stringify({ pos: 0, row: i }))
-          //i + 1 optional, use to output the circle number
-        );
-      });
       _drawRect(p5, rectangle);
+      rectangle.circles.forEach((circle) => {
+        _drawCircle(p5, circle);
+      });
     });
   });
 };
@@ -36,17 +31,17 @@ export const drawRows = (p5: P5Instance, rows: Row[]) => {
  * @param  {P5Instance} p5 - The p5 instance
  * @param  {Circle} circle - The circle specification
  * @param  {ShapeModification} shapeModification - Whether the circle should be filled with one of the brand colors (hexcode)
- * @param  {number} coords  - Can be used for debugging purposes to output the circle number
  */
-const _drawCircle = (p5: P5Instance, circle: Circle, coords?: number) => {
-  p5.stroke(255);
+const _drawCircle = (p5: P5Instance, circle: Circle) => {
   circle.color && !circle.emoji ? p5.fill(circle.color) : p5.noFill();
+  p5.stroke(255);
   p5.strokeWeight(circle.line);
   p5.ellipse(circle.x, circle.y, circle.r);
-  circle.emoji && p5.text(circle.emoji, circle.x, circle.y, circle.r);
 
-  if (coords) {
-    p5.text(coords, circle.x, circle.y, circle.r);
+  if (circle.emoji) {
+    p5.textSize(50);
+    p5.textAlign(p5.CENTER, p5.CENTER);
+    p5.text(circle.emoji, circle.x, circle.y + 3);
   }
 };
 
@@ -57,7 +52,7 @@ const _drawCircle = (p5: P5Instance, circle: Circle, coords?: number) => {
  * @param  {Rectangle} rect - The rectangle specification
  */
 const _drawRect = (p5: P5Instance, rect: Rectangle) => {
-  p5.noFill();
+  rect.color ? p5.fill(rect.color) : p5.noFill();
   p5.stroke(255);
   p5.strokeWeight(rect.line);
   p5.rect(
