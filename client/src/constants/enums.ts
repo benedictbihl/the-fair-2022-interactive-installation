@@ -30,6 +30,9 @@ export enum MOVEMENT_MODIFIER {
 export enum SHAPE_MODIFIER {
   PERLIN_NOISE = "Perlin Noise",
   SINE_GROW_SHRINK = "Sine Grow Shrink",
+  DYNAMIC_SIZE_CENTER = "Dynamic Size Center",
+  DYNAMIC_SIZE_VERTICAL = "Dynamic Size Vertical",
+  DYNAMIC_SIZE_HORIZONTAL = "Dynamic Size Horizontal",
 }
 
 export enum ADDITIONAL_ELEMENTS_MODIFIER {

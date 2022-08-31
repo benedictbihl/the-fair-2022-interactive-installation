@@ -111,6 +111,7 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
       );
 
       const rowsWithMovementAndColorModAndShapeMod = shapeModifier(
+        p5,
         animationModifierState.shapeModifier,
         rowsWithMovementAndColorMod
       );
