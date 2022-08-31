@@ -12,6 +12,7 @@ import { additionalElementsModifier } from "../../utils/p5/animationStateUtils/a
 import { colorModifier } from "../../utils/p5/animationStateUtils/colorModifier";
 import { movementModifier } from "../../utils/p5/animationStateUtils/movementModifier";
 import { pixelModifier } from "../../utils/p5/animationStateUtils/pixelModifier";
+import { shapeModifier } from "../../utils/p5/animationStateUtils/shapeModifiers";
 import { assembleRows, drawRows } from "../../utils/p5/drawingUtils/drawShapes";
 
 export const canvasSettings: CanvasSettings = {
@@ -109,8 +110,13 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
         rowsWithMovementMod
       );
 
+      const rowsWithMovementAndColorModAndShapeMod = shapeModifier(
+        animationModifierState.shapeModifier,
+        rowsWithMovementAndColorMod
+      );
+
       //do the actual drawing of the shapes
-      drawRows(p5, rowsWithMovementAndColorMod);
+      drawRows(p5, rowsWithMovementAndColorModAndShapeMod);
 
       //this modifier does not draw elements directly, but works on a pixel base
       // -> we only call it after the drawing is finished

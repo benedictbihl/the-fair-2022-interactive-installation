@@ -36,7 +36,22 @@ const _drawCircle = (p5: P5Instance, circle: Circle) => {
   circle.color && !circle.emoji ? p5.fill(circle.color) : p5.noFill();
   p5.stroke(255);
   p5.strokeWeight(circle.line);
-  p5.ellipse(circle.x, circle.y, circle.r);
+  //if zOff is defined,the perlin noise shape mod is active and we need to draw the circles differently
+  if (circle.zOff) {
+    p5.beginShape();
+    for (let a = 0; a < p5.TWO_PI; a += 0.1) {
+      let xOff = p5.map(p5.cos(a), -1, 1, 0, 0.5);
+      let yOff = p5.map(p5.sin(a), -1, 1, 0, 0.5);
+      let r = p5.map(p5.noise(xOff, yOff, circle.zOff), 0, 1, 20, 42);
+      let x = r * p5.cos(a);
+      let y = r * p5.sin(a);
+      p5.vertex(x, y);
+    }
+    p5.endShape(p5.CLOSE);
+    p5.resetMatrix();
+  } else {
+    p5.ellipse(circle.x, circle.y, circle.r);
+  }
 
   if (circle.emoji) {
     p5.textSize(50);
