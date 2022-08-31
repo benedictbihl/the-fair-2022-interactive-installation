@@ -3,6 +3,7 @@ import {
   COLOR_MODIFIER,
   MOVEMENT_MODIFIER,
   PIXEL_MODIFIER,
+  SHAPE_MODIFIER,
 } from "../../../constants/enums";
 
 /**
@@ -13,7 +14,7 @@ import {
  */
 export const pickModifier = (mapSize: number): any => {
   //if its the first ID, or the 5th one for example
-  if (mapSize % 4 === 0) {
+  if (mapSize % 5 === 0) {
     console.log("first");
     const values = Object.keys(COLOR_MODIFIER);
     const enumKey = values[Math.floor(Math.random() * values.length)];
@@ -23,7 +24,7 @@ export const pickModifier = (mapSize: number): any => {
   }
 
   //if its the second ID, or the 6th one for example
-  if (mapSize % 4 === 1) {
+  if (mapSize % 5 === 1) {
     const values = Object.keys(MOVEMENT_MODIFIER);
     const enumKey = values[Math.floor(Math.random() * values.length)];
     return {
@@ -33,7 +34,7 @@ export const pickModifier = (mapSize: number): any => {
   }
 
   //if its the third ID, or the 7th one for example
-  if (mapSize % 4 === 2) {
+  if (mapSize % 5 === 2) {
     const values = Object.keys(PIXEL_MODIFIER);
     const enumKey = values[Math.floor(Math.random() * values.length)];
     return {
@@ -42,7 +43,7 @@ export const pickModifier = (mapSize: number): any => {
   }
 
   //if its the fourth ID, or the 8th one for example
-  if (mapSize % 4 === 3) {
+  if (mapSize % 5 === 3) {
     const values = Object.keys(ADDITIONAL_ELEMENTS_MODIFIER);
     const enumKey = values[Math.floor(Math.random() * values.length)];
     return {
@@ -50,6 +51,15 @@ export const pickModifier = (mapSize: number): any => {
         ADDITIONAL_ELEMENTS_MODIFIER[
           enumKey as keyof typeof ADDITIONAL_ELEMENTS_MODIFIER
         ],
+    };
+  }
+
+  // if its the fifth ID, or the 9th one for example
+  if (mapSize % 5 === 4) {
+    const values = Object.keys(SHAPE_MODIFIER);
+    const enumKey = values[Math.floor(Math.random() * values.length)];
+    return {
+      shapeModifier: SHAPE_MODIFIER[enumKey as keyof typeof SHAPE_MODIFIER],
     };
   }
 };
