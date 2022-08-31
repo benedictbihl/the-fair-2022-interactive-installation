@@ -38,6 +38,7 @@ const _drawCircle = (p5: P5Instance, circle: Circle) => {
   p5.strokeWeight(circle.line);
   //if zOff is defined,the perlin noise shape mod is active and we need to draw the circles differently
   if (circle.zOff) {
+    p5.translate(circle.x, circle.y);
     p5.beginShape();
     for (let a = 0; a < p5.TWO_PI; a += 0.1) {
       let xOff = p5.map(p5.cos(a), -1, 1, 0, 0.5);
