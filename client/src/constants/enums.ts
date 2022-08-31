@@ -16,7 +16,6 @@ export enum COLOR_MODIFIER {
 }
 
 export enum PIXEL_MODIFIER {
-  // PERLIN_NOISE = "perlin_noise", //TODO
   PIXEL_SHIFT = "Pixel Shift",
   INVERT_COLORS = "Invert Colors",
 }
@@ -29,6 +28,7 @@ export enum MOVEMENT_MODIFIER {
 }
 
 export enum SHAPE_MODIFIER {
+  PERLIN_NOISE = "Perlin Noise",
   SINE_GROW_SHRINK = "Sine Grow Shrink",
 }
 
