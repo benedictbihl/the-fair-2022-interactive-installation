@@ -1,3 +1,5 @@
+import { P5Instance } from "react-p5-wrapper";
+
 import { SHAPE_MODIFIER } from "../../../constants/enums";
 import { Row } from "../../../constants/types";
 
@@ -18,6 +20,7 @@ for (let i = 0; i < 45; i++) {
  */
 
 export function shapeModifier(
+  p5: P5Instance,
   shapeModifierState: SHAPE_MODIFIER | undefined,
   rows: Row[]
 ): Row[] {
@@ -40,6 +43,92 @@ export function shapeModifier(
         rectangle.circles[0].zOff = zOffCircles[i] + count;
         rectangle.circles[1].zOff = zOffCircles[i] + count;
         i++;
+      });
+
+      return rows;
+    }
+    case SHAPE_MODIFIER.DYNAMIC_SIZE_CENTER: {
+      const maxCircleSize = 60;
+      const minCircleSize = 0;
+
+      const getNewCircleSize = (x: number, y: number) => {
+        const distance = p5.dist(p5.width / 2, p5.height / 2, x, y);
+        const maxDistance = p5.dist(
+          maxCircleSize - 8,
+          maxCircleSize - 8,
+          p5.width / 2,
+          p5.height / 2
+        );
+        return p5.map(
+          distance,
+          // switch 0 and maxDistance to invert the size effect
+          0,
+          maxDistance,
+          minCircleSize,
+          maxCircleSize
+        );
+      };
+
+      rows.forEach((row) => {
+        row.rectangles.forEach((rectangle) => {
+          rectangle.circles.forEach((circle) => {
+            circle.r = getNewCircleSize(circle.x, circle.y);
+          });
+        });
+      });
+
+      return rows;
+    }
+    case SHAPE_MODIFIER.DYNAMIC_SIZE_VERTICAL: {
+      const maxCircleSize = 60;
+      const minCircleSize = 0;
+
+      const getNewCircleSize = (y: number) => {
+        const distance = p5.dist(0, p5.height / 2, 0, y);
+        const maxDistance = p5.dist(0, maxCircleSize - 8, 0, p5.height / 2);
+        return p5.map(
+          distance,
+          // switch 0 and maxDistance to invert the size effect
+          0,
+          maxDistance,
+          minCircleSize,
+          maxCircleSize
+        );
+      };
+
+      rows.forEach((row) => {
+        row.rectangles.forEach((rectangle) => {
+          rectangle.circles.forEach((circle) => {
+            circle.r = getNewCircleSize(circle.y);
+          });
+        });
+      });
+
+      return rows;
+    }
+    case SHAPE_MODIFIER.DYNAMIC_SIZE_HORIZONTAL: {
+      const maxCircleSize = 60;
+      const minCircleSize = 0;
+
+      const getNewCircleSize = (x: number) => {
+        const distance = p5.dist(p5.width / 2, 0, x, 0);
+        const maxDistance = p5.dist(maxCircleSize - 8, 0, p5.width / 2, 0);
+        return p5.map(
+          distance,
+          // switch 0 and maxDistance to invert the size effect
+          0,
+          maxDistance,
+          minCircleSize,
+          maxCircleSize
+        );
+      };
+
+      rows.forEach((row) => {
+        row.rectangles.forEach((rectangle) => {
+          rectangle.circles.forEach((circle) => {
+            circle.r = getNewCircleSize(circle.x);
+          });
+        });
       });
 
       return rows;
