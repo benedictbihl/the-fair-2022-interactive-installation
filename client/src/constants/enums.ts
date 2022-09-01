@@ -12,7 +12,7 @@ export enum COLORS {
 export enum COLOR_MODIFIER {
   FILL_CIRCLES = "Fill Circles",
   FILL_RECTS_AND_CIRCLES = "Fill Rectangles and Circles",
-  EMOJIS = "Emojis",
+  // EMOJIS = "Emojis",
 }
 
 export enum PIXEL_MODIFIER {
