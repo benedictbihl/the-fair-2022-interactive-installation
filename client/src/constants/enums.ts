@@ -37,4 +37,5 @@ export enum SHAPE_MODIFIER {
 
 export enum ADDITIONAL_ELEMENTS_MODIFIER {
   SHOW_COLOR_WORM = "Show Color Worm",
+  CIRCLE_COLLIDE = "Circle Collide",
 }

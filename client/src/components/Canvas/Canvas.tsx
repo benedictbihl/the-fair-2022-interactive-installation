@@ -135,6 +135,8 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
     };
 
     p5.draw = () => {
+      p5.clear(0, 0, 0, 0);
+
       additionalElementsModifier(
         p5,
         canvasSettings,
