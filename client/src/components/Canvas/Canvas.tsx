@@ -106,6 +106,7 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
 
       //hand those rows with movement mods to the colorModifier to add color to circles and rectangles
       const rowsWithMovementAndColorMod = colorModifier(
+        p5,
         animationModifierState.colorModifier,
         rowsWithMovementMod
       );

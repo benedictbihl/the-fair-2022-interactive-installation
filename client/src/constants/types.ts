@@ -63,3 +63,9 @@ export type AnimationModifierState = {
   movementModifier: MOVEMENT_MODIFIER | undefined;
   additionalElementsModifier: ADDITIONAL_ELEMENTS_MODIFIER | undefined;
 };
+
+export type ColorPair = {
+  primary: COLORS;
+  secondary: COLORS;
+  addionalElementColor?: COLORS;
+};
