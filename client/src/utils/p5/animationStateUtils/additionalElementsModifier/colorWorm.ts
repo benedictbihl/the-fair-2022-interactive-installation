@@ -57,9 +57,9 @@ export function drawColorWorm(
     }
   }
 
-  p5.frameCount % 8 === 0 && updateWormCoordinates(p5); // update the worm coordinates every 8 frames
+  p5.frameCount % 6 === 0 && updateWormCoordinates(p5); // update the worm coordinates every 6 frames
   //if Math.random() > 0.95, change direction between left and right and up and down
-  if (Math.random() > 0.95) {
+  if (Math.random() > 0.9) {
     if (direction === "right") {
       direction =
         Math.floor(Math.random() * 3) === 0
