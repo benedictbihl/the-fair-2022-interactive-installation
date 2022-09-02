@@ -3,8 +3,10 @@
 // taken straight from https://p5js.org/examples/motion-circle-collision.html -> no typescript and class syntax
 import p5 from "p5";
 
+import { COLORS } from "../../../../constants/enums";
 class Ball {
-  constructor(x, y, r) {
+  constructor(x, y, r, color) {
+    this.color = color;
     this.position = new p5.Vector(x, y);
     this.velocity = p5.Vector.random2D();
     this.velocity.mult(3);
@@ -16,19 +18,32 @@ class Ball {
     this.position.add(this.velocity);
   }
 
+  changeColor(ball) {
+    ball.color =
+      COLORS[
+        Object.keys(COLORS)[
+          Math.floor(Math.random() * Object.keys(COLORS).length)
+        ] as keyof typeof COLORS
+      ];
+  }
+
   checkBoundaryCollision(p5Instance) {
     if (this.position.x > p5Instance.width - this.r) {
       this.position.x = p5Instance.width - this.r;
       this.velocity.x *= -1;
+      this.changeColor(this);
     } else if (this.position.x < this.r) {
       this.position.x = this.r;
       this.velocity.x *= -1;
+      this.changeColor(this);
     } else if (this.position.y > p5Instance.height - this.r) {
       this.position.y = p5Instance.height - this.r;
       this.velocity.y *= -1;
+      this.changeColor(this);
     } else if (this.position.y < this.r) {
       this.position.y = this.r;
       this.velocity.y *= -1;
+      this.changeColor(this);
     }
   }
 
@@ -119,12 +134,14 @@ class Ball {
       this.velocity.y = cosine * vFinal[0].y + sine * vFinal[0].x;
       other.velocity.x = cosine * vFinal[1].x - sine * vFinal[1].y;
       other.velocity.y = cosine * vFinal[1].y + sine * vFinal[1].x;
+      this.changeColor(this);
+      this.changeColor(other);
     }
   }
 
   display(p5Instance) {
     p5Instance.noStroke();
-    p5Instance.fill(204);
+    p5Instance.fill(this.color);
     p5Instance.ellipse(
       this.position.x,
       this.position.y,
@@ -134,7 +151,10 @@ class Ball {
   }
 }
 
-const balls = [new Ball(10, 400, 20), new Ball(50, 300, 80)];
+const balls = [
+  new Ball(10, 400, 30, COLORS.GOLD_TUNE),
+  new Ball(50, 300, 70, COLORS.PURPLE_NOISE),
+];
 
 export function drawCollidingCircles(p5Instance) {
   for (let i = 0; i < balls.length; i++) {
