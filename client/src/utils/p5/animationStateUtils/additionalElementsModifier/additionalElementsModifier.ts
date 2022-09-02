@@ -6,7 +6,7 @@ import {
   COLORS,
 } from "../../../../constants/enums";
 import { CanvasSettings } from "../../../../constants/types";
-import { Ball, drawCollidingCircles } from "./circleCollision";
+import { drawCollidingCircles } from "./circleCollision";
 import { drawColorWorm } from "./colorWorm";
 
 /**
@@ -28,8 +28,7 @@ export function additionalElementsModifier(
       break;
     }
     case ADDITIONAL_ELEMENTS_MODIFIER.CIRCLE_COLLIDE: {
-      let balls = [new Ball(100, 400, 20), new Ball(50, 300, 80)];
-      drawCollidingCircles(p5, balls);
+      drawCollidingCircles(p5);
       break;
     }
     default:

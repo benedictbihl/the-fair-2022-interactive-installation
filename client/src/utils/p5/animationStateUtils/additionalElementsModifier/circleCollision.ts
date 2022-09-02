@@ -1,8 +1,9 @@
 //@ts-nocheck
 
+// taken straight from https://p5js.org/examples/motion-circle-collision.html -> no typescript and class syntax
 import p5 from "p5";
 
-export class Ball {
+class Ball {
   constructor(x, y, r) {
     this.position = new p5.Vector(x, y);
     this.velocity = p5.Vector.random2D();
@@ -133,13 +134,14 @@ export class Ball {
   }
 }
 
-export function drawCollidingCircles(p5Instance, balls) {
-  console.log(balls);
+const balls = [new Ball(10, 400, 20), new Ball(50, 300, 80)];
+
+export function drawCollidingCircles(p5Instance) {
   for (let i = 0; i < balls.length; i++) {
     let b = balls[i];
     b.update(p5Instance);
     b.display(p5Instance);
     b.checkBoundaryCollision(p5Instance);
-    // balls[0].checkCollision(balls[1]);
+    balls[0].checkCollision(balls[1], p5Instance);
   }
 }
