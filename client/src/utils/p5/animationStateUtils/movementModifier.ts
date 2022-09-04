@@ -1,5 +1,6 @@
 import { P5Instance } from "react-p5-wrapper";
 
+import { canvasSettings } from "../../../components/Canvas";
 import { MOVEMENT_MODIFIER } from "../../../constants/enums";
 import { CanvasSettings, Row } from "../../../constants/types";
 import { assembleRows } from "../drawingUtils/drawShapes";
@@ -9,12 +10,10 @@ let count = 0;
 let angles: number[] = [];
 let angleV: number[] = [];
 
-let savedPositions: number[] = [];
+let perlinVal: number[] = [];
+let perlinValV: number[] = [];
 
-for (let i = 0; i < 15; i++) {
-  angles.push(0);
-  angleV.push(0.01 + i / 700);
-}
+let savedPositions: number[] = [];
 
 /**
  * Function to modify the movement of the circles and rectangles on the canvas.
@@ -32,7 +31,155 @@ export function movementModifier(
   movementModifierState: MOVEMENT_MODIFIER | undefined,
   rows: Row[]
 ): Row[] {
+  for (let i = 0; i < canvasSettings.columnCount; i++) {
+    angles.push(0);
+    angleV.push(0.01 + i / 700);
+    perlinVal.push(0);
+    perlinValV.push(0.007 + i / 7000);
+  }
+
   switch (movementModifierState) {
+    case MOVEMENT_MODIFIER.DYNAMIC_ROW_HEIGHT_PERLIN: {
+      //Caluclating values for Top Row
+      let RectTopMinHeight = canvasSettings.circleSize * 2;
+      let RectTopMaxHeight =
+        canvasSettings.canvasHeight / 2 -
+        canvasSettings.padding -
+        canvasSettings.gap -
+        canvasSettings.circleSize;
+
+      let calcCircleMinTop = rows[0].rectangles[0].circles[1].y;
+      let calcCircleMaxTop =
+        canvasSettings.canvasHeight / 2 -
+        canvasSettings.gap -
+        canvasSettings.circleSize -
+        canvasSettings.circleSize / 2;
+
+      let RectMidMinHeight = canvasSettings.circleSize * 2;
+      let RectMidMaxHeight =
+        canvasSettings.canvasHeight -
+        canvasSettings.padding * 2 -
+        canvasSettings.gap * 2 -
+        canvasSettings.circleSize * 4;
+
+      //Caluclating values for Mid Row
+      let RectMidMinY =
+        RectTopMinHeight + canvasSettings.gap + canvasSettings.padding;
+      let RectMidMaxY =
+        RectTopMaxHeight + canvasSettings.gap + canvasSettings.padding;
+
+      let Circle1MidMinY = RectMidMinY + canvasSettings.circleSize / 2;
+      let Circle1MidMaxY =
+        canvasSettings.canvasHeight / 2 - canvasSettings.circleSize / 2;
+
+      let Circle2MidMinY =
+        canvasSettings.canvasHeight / 2 + canvasSettings.circleSize / 2;
+      let Circle2MidMaxY =
+        canvasSettings.canvasHeight -
+        canvasSettings.gap -
+        canvasSettings.padding -
+        canvasSettings.circleSize * 2 -
+        canvasSettings.circleSize / 2;
+
+      //Caluclating values for Bot Row
+      let RectBotMinHeight = canvasSettings.circleSize * 2;
+      let RectBotMaxHeight =
+        canvasSettings.canvasHeight / 2 -
+        canvasSettings.padding -
+        canvasSettings.gap -
+        canvasSettings.circleSize;
+
+      let RectBotMinY =
+        canvasSettings.canvasHeight - RectBotMinHeight - canvasSettings.padding;
+      let RectBotMaxY =
+        canvasSettings.canvasHeight - RectBotMaxHeight - canvasSettings.padding;
+
+      let Circle1BotMinY = RectBotMinY + canvasSettings.circleSize / 2;
+      let Circle1BotMaxY =
+        canvasSettings.canvasHeight / 2 +
+        canvasSettings.circleSize +
+        canvasSettings.gap +
+        canvasSettings.circleSize / 2;
+
+      rows[0].rectangles.forEach((rectangle, colIndex) => {
+        rectangle.h = p5.map(
+          p5.noise(perlinVal[colIndex]),
+          0.25,
+          0.75,
+          RectTopMinHeight,
+          RectTopMaxHeight
+        );
+        rectangle.circles[1].y = p5.map(
+          p5.noise(perlinVal[colIndex]),
+          0.25,
+          0.75,
+          calcCircleMinTop,
+          calcCircleMaxTop
+        );
+
+        perlinVal[colIndex] += perlinValV[colIndex];
+      });
+
+      rows[1].rectangles.forEach((rectangle, colIndex) => {
+        rectangle.h = p5.map(
+          p5.noise(perlinVal[colIndex]),
+          0.25,
+          0.75,
+          RectMidMaxHeight,
+          RectMidMinHeight
+        );
+        rectangle.y = p5.map(
+          p5.noise(perlinVal[colIndex]),
+          0.25,
+          0.75,
+          RectMidMinY,
+          RectMidMaxY
+        );
+
+        rectangle.circles[0].y = p5.map(
+          p5.noise(perlinVal[colIndex]),
+          0.25,
+          0.75,
+          Circle1MidMinY,
+          Circle1MidMaxY
+        );
+        rectangle.circles[1].y = p5.map(
+          p5.noise(perlinVal[colIndex]),
+          0.25,
+          0.75,
+          Circle2MidMaxY,
+          Circle2MidMinY
+        );
+      });
+
+      rows[2].rectangles.forEach((rectangle, colIndex) => {
+        rectangle.h = p5.map(
+          p5.noise(perlinVal[colIndex]),
+          0.25,
+          0.75,
+          RectBotMinHeight,
+          RectBotMaxHeight
+        );
+        rectangle.y = p5.map(
+          p5.noise(perlinVal[colIndex]),
+          0.25,
+          0.75,
+          RectBotMinY,
+          RectBotMaxY
+        );
+
+        rectangle.circles[0].y = p5.map(
+          p5.noise(perlinVal[colIndex]),
+          0.25,
+          0.75,
+          Circle1BotMinY,
+          Circle1BotMaxY
+        );
+      });
+
+      return rows;
+    }
+
     case MOVEMENT_MODIFIER.DYNAMIC_ROW_HEIGHT: {
       let RectTopMinHeight = canvasSettings.circleSize * 2;
       let RectTopMaxHeight =
