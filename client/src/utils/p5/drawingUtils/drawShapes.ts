@@ -93,6 +93,7 @@ const _drawRect = (p5: P5Instance, rect: Rectangle) => {
  * @param  {Row} botRowSkeleton - The bot row skeleton containing the position for the entire row
  * @returns Row[] - The array of rows containing all data to draw the base sketch
  */
+
 export const assembleRows = (
   canvasSettings: CanvasSettings,
   topRowSkeleton: Row,

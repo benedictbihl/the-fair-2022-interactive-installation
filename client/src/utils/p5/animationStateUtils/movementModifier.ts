@@ -34,19 +34,27 @@ export function movementModifier(
 ): Row[] {
   switch (movementModifierState) {
     case MOVEMENT_MODIFIER.DYNAMIC_ROW_HEIGHT: {
-      let calcRecMinTop = canvasSettings.circleSize * 2;
-      let calcRecMaxTop = canvasSettings.circleSize * 4;
+      let RectTopMinHeight = canvasSettings.circleSize * 2;
+      let RectTopMaxHeight =
+        canvasSettings.canvasHeight / 2 -
+        canvasSettings.padding -
+        canvasSettings.gap -
+        canvasSettings.circleSize;
 
       let calcCircleMinTop = rows[0].rectangles[0].circles[1].y;
-      let calcCircleMaxTop = calcCircleMinTop + canvasSettings.circleSize * 2;
+      let calcCircleMaxTop =
+        canvasSettings.canvasHeight / 2 -
+        canvasSettings.gap -
+        canvasSettings.circleSize -
+        canvasSettings.circleSize / 2;
 
       rows[0].rectangles.forEach((rectangle, colIndex) => {
         rectangle.h = p5.map(
           p5.sin(angles[colIndex]),
           -1,
           1,
-          calcRecMinTop,
-          calcRecMaxTop
+          RectTopMinHeight,
+          RectTopMaxHeight
         );
         rectangle.circles[1].y = p5.map(
           p5.sin(angles[colIndex]),
@@ -59,26 +67,37 @@ export function movementModifier(
       });
 
       let RectMidMinHeight = canvasSettings.circleSize * 2;
-      let RectMidMaxHeight = canvasSettings.circleSize * 3;
+      let RectMidMaxHeight =
+        canvasSettings.canvasHeight -
+        canvasSettings.padding * 2 -
+        canvasSettings.gap * 2 -
+        canvasSettings.circleSize * 4;
 
       let RectMidMinY =
-        calcRecMinTop + canvasSettings.gap + canvasSettings.padding;
+        RectTopMinHeight + canvasSettings.gap + canvasSettings.padding;
       let RectMidMaxY =
-        calcRecMaxTop + canvasSettings.gap + canvasSettings.padding;
+        RectTopMaxHeight + canvasSettings.gap + canvasSettings.padding;
 
       let Circle1MidMinY = RectMidMinY + canvasSettings.circleSize / 2;
-      let Circle1MidMaxY = Circle1MidMinY + canvasSettings.circleSize * 2;
+      let Circle1MidMaxY =
+        canvasSettings.canvasHeight / 2 - canvasSettings.circleSize / 2;
 
-      let Circle2MidMinY = Circle1MidMinY + canvasSettings.circleSize;
-      let Circle2MidMaxY = Circle2MidMinY + canvasSettings.circleSize * 3;
+      let Circle2MidMinY =
+        canvasSettings.canvasHeight / 2 + canvasSettings.circleSize / 2;
+      let Circle2MidMaxY =
+        canvasSettings.canvasHeight -
+        canvasSettings.gap -
+        canvasSettings.padding -
+        canvasSettings.circleSize * 2 -
+        canvasSettings.circleSize / 2;
 
       rows[1].rectangles.forEach((rectangle, colIndex) => {
         rectangle.h = p5.map(
           p5.sin(angles[colIndex]),
           -1,
           1,
-          RectMidMinHeight,
-          RectMidMaxHeight
+          RectMidMaxHeight,
+          RectMidMinHeight
         );
         rectangle.y = p5.map(
           p5.sin(angles[colIndex]),
@@ -99,8 +118,61 @@ export function movementModifier(
           p5.sin(angles[colIndex]),
           -1,
           1,
-          Circle2MidMinY,
-          Circle2MidMaxY
+          Circle2MidMaxY,
+          Circle2MidMinY
+        );
+        //angles[colIndex] += angleV[colIndex];
+      });
+
+      let RectBotMinHeight = canvasSettings.circleSize * 2;
+      let RectBotMaxHeight =
+        canvasSettings.canvasHeight / 2 -
+        canvasSettings.padding -
+        canvasSettings.gap -
+        canvasSettings.circleSize;
+
+      let RectBotMinY =
+        canvasSettings.canvasHeight - RectBotMinHeight - canvasSettings.padding;
+      let RectBotMaxY =
+        canvasSettings.canvasHeight - RectBotMaxHeight - canvasSettings.padding;
+
+      let Circle1BotMinY = RectBotMinY + canvasSettings.circleSize / 2;
+      let Circle1BotMaxY =
+        canvasSettings.canvasHeight / 2 +
+        canvasSettings.circleSize +
+        canvasSettings.gap +
+        canvasSettings.circleSize / 2;
+
+      let Circle2BotMinY = rows[2].rectangles[0].circles[1].y;
+      let Circle2BotMaxY =
+        canvasSettings.canvasHeight -
+        canvasSettings.gap -
+        canvasSettings.padding -
+        canvasSettings.circleSize * 2 -
+        canvasSettings.circleSize / 2;
+
+      rows[2].rectangles.forEach((rectangle, colIndex) => {
+        rectangle.h = p5.map(
+          p5.sin(angles[colIndex]),
+          -1,
+          1,
+          RectBotMinHeight,
+          RectBotMaxHeight
+        );
+        rectangle.y = p5.map(
+          p5.sin(angles[colIndex]),
+          -1,
+          1,
+          RectBotMinY,
+          RectBotMaxY
+        );
+
+        rectangle.circles[0].y = p5.map(
+          p5.sin(angles[colIndex]),
+          -1,
+          1,
+          Circle1BotMinY,
+          Circle1BotMaxY
         );
         //angles[colIndex] += angleV[colIndex];
       });
