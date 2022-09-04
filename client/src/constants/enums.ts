@@ -23,6 +23,7 @@ export enum PIXEL_MODIFIER {
 export enum MOVEMENT_MODIFIER {
   SINE_WAVE = "Sine Wave",
   DYNAMIC_ROW_HEIGHT = "Dynamic Row Height",
+  DYNAMIC_ROW_HEIGHT_PERLIN = "Dynamic Row Height Perlin",
   SINE_CIRCLES = "Sine Circles",
   SPECTRUM = "Spectrum",
 }
