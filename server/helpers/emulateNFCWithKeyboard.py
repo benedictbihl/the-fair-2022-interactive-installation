@@ -8,9 +8,12 @@ def id_generator(size=8, chars=string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
 
-# array of 8 ids
+# array of 16 ids
 ids = [id_generator(), id_generator(), id_generator(), id_generator(),
-       id_generator(), id_generator(), id_generator(), id_generator()]
+       id_generator(), id_generator(), id_generator(), id_generator(),
+       id_generator(), id_generator(), id_generator(), id_generator(),
+       id_generator(), id_generator(), id_generator(), id_generator()
+       ]
 
 
 async def emulate_nfc_tag(sio):

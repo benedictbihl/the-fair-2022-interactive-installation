@@ -35,6 +35,7 @@ const DebugPanel: FC<IDebugPanelProps> = ({
         ) {
           localStorage.removeItem("IDModifierMap");
           localStorage.removeItem("animationModifierState");
+          localStorage.removeItem("usedModifiers");
           // reload page to reset state
           window.location.reload();
         }
