@@ -12,7 +12,6 @@ export enum COLORS {
 export enum COLOR_MODIFIER {
   FILL_CIRCLES = "Fill Circles",
   FILL_RECTS_AND_CIRCLES = "Fill Rectangles and Circles",
-  // EMOJIS = "Emojis",
 }
 
 export enum PIXEL_MODIFIER {
@@ -21,7 +20,6 @@ export enum PIXEL_MODIFIER {
 }
 
 export enum MOVEMENT_MODIFIER {
-  SINE_WAVE = "Sine Wave",
   DYNAMIC_ROW_HEIGHT = "Dynamic Row Height",
   DYNAMIC_ROW_HEIGHT_PERLIN = "Dynamic Row Height Perlin",
   SINE_CIRCLES = "Sine Circles",
@@ -30,7 +28,6 @@ export enum MOVEMENT_MODIFIER {
 
 export enum SHAPE_MODIFIER {
   PERLIN_NOISE = "Perlin Noise",
-  SINE_GROW_SHRINK = "Sine Grow Shrink",
   DYNAMIC_SIZE_CENTER = "Dynamic Size Center",
   DYNAMIC_SIZE_VERTICAL = "Dynamic Size Vertical",
   DYNAMIC_SIZE_HORIZONTAL = "Dynamic Size Horizontal",
