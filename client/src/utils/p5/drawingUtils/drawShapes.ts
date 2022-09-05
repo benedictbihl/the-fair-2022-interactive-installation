@@ -1,11 +1,7 @@
 import { P5Instance } from "react-p5-wrapper";
 
-import {
-  CanvasSettings,
-  Circle,
-  Rectangle,
-  Row,
-} from "../../../constants/types";
+import { canvasSettings } from "../../../constants/canvasSettings";
+import { Circle, Rectangle, Row } from "../../../constants/types";
 
 /**
  * function to draw a row of circles and rectangles on the canvas.
@@ -95,7 +91,6 @@ const _drawRect = (p5: P5Instance, rect: Rectangle) => {
  */
 
 export const assembleRows = (
-  canvasSettings: CanvasSettings,
   topRowSkeleton: Row,
   midRowSkeleton: Row,
   botRowSkeleton: Row

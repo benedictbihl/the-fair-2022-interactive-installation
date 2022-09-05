@@ -1,9 +1,8 @@
 import { P5Instance } from "react-p5-wrapper";
 
-import { canvasSettings } from "../../../components/Canvas";
+import { canvasSettings } from "../../../constants/canvasSettings";
 import { MOVEMENT_MODIFIER } from "../../../constants/enums";
-import { CanvasSettings, Row } from "../../../constants/types";
-import { assembleRows } from "../drawingUtils/drawShapes";
+import { Row } from "../../../constants/types";
 
 let count = 0;
 
@@ -15,11 +14,16 @@ let perlinValV: number[] = [];
 
 let savedPositions: number[] = [];
 
+for (let i = 0; i < canvasSettings.columnCount; i++) {
+  angles.push(0);
+  angleV.push(0.01 + i / 700);
+  perlinVal.push(0);
+  perlinValV.push(0.007 + i / 7000);
+}
 /**
  * Function to modify the movement of the circles and rectangles on the canvas.
  *
  * @param  {P5Instance} p5 - The p5 instance
- * @param  {CanvasSettings} canvasSettings - The canvas settings containing different base values we base our calculations on
  * @param  {MOVEMENT_MODIFIER} movementModifierState - Slice of the AnimationState that contains the movement modifier state
  * @param  {Row[]} rows - The rows we want to perform the manipulations on
  * @returns Row - The modified rows
@@ -27,20 +31,12 @@ let savedPositions: number[] = [];
 
 export function movementModifier(
   p5: P5Instance,
-  canvasSettings: CanvasSettings,
   movementModifierState: MOVEMENT_MODIFIER | undefined,
   rows: Row[]
 ): Row[] {
-  for (let i = 0; i < canvasSettings.columnCount; i++) {
-    angles.push(0);
-    angleV.push(0.01 + i / 700);
-    perlinVal.push(0);
-    perlinValV.push(0.007 + i / 7000);
-  }
-
   switch (movementModifierState) {
     case MOVEMENT_MODIFIER.DYNAMIC_ROW_HEIGHT_PERLIN: {
-      //Caluclating values for Top Row
+      //Calculating values for Top Row
       let RectTopMinHeight = canvasSettings.circleSize * 2;
       let RectTopMaxHeight =
         canvasSettings.canvasHeight / 2 -
@@ -62,7 +58,7 @@ export function movementModifier(
         canvasSettings.gap * 2 -
         canvasSettings.circleSize * 4;
 
-      //Caluclating values for Mid Row
+      //Calculating values for Mid Row
       let RectMidMinY =
         RectTopMinHeight + canvasSettings.gap + canvasSettings.padding;
       let RectMidMaxY =
@@ -81,7 +77,7 @@ export function movementModifier(
         canvasSettings.circleSize * 2 -
         canvasSettings.circleSize / 2;
 
-      //Caluclating values for Bot Row
+      //Calculating values for Bot Row
       let RectBotMinHeight = canvasSettings.circleSize * 2;
       let RectBotMaxHeight =
         canvasSettings.canvasHeight / 2 -
@@ -355,7 +351,7 @@ export function movementModifier(
         angles[rectIndex] += angleV[rectIndex];
       });
 
-      return rows; //return the rows with the modified circles
+      return rows;
     }
 
     case MOVEMENT_MODIFIER.SPECTRUM: {
@@ -401,7 +397,7 @@ export function movementModifier(
         savedPositions[rectIndex] = newPositionY;
       });
 
-      return rows; //return the rows with the modified circles
+      return rows;
     }
 
     default: {
