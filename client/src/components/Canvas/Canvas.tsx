@@ -3,39 +3,14 @@ import "./Canvas.css";
 import { FC } from "react";
 import { P5Instance, ReactP5Wrapper } from "react-p5-wrapper";
 
-import {
-  AnimationModifierState,
-  CanvasSettings,
-  Row,
-} from "../../constants/types";
+import { canvasSettings } from "../../constants/canvasSettings";
+import { AnimationModifierState, Row } from "../../constants/types";
 import { additionalElementsModifier } from "../../utils/p5/animationStateUtils/additionalElementsModifier";
 import { colorModifier } from "../../utils/p5/animationStateUtils/colorModifier";
 import { movementModifier } from "../../utils/p5/animationStateUtils/movementModifier";
 import { pixelModifier } from "../../utils/p5/animationStateUtils/pixelModifier";
 import { shapeModifier } from "../../utils/p5/animationStateUtils/shapeModifiers";
 import { assembleRows, drawRows } from "../../utils/p5/drawingUtils/drawShapes";
-
-export const canvasSettings: CanvasSettings = {
-  scaleFactor: 5,
-  columnCount: 15,
-  rowCount: 3,
-  gap: 10,
-  get padding() {
-    return 4 * this.scaleFactor;
-  },
-  get circleSize() {
-    return 12 * this.scaleFactor;
-  },
-  get canvasWidth() {
-    return (
-      this.padding * 2 +
-      this.circleSize * (this.columnCount - 1) * 0.6 +
-      this.circleSize
-    );
-  },
-  canvasHeight: 540,
-  circleOffset: 0.6,
-};
 
 const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
   animationModifierState,
@@ -89,17 +64,11 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
       };
 
       // iterate over canvasSettings.columnCount and draw a rectangle and two circles for each column
-      const rows = assembleRows(
-        canvasSettings,
-        topRowSkeleton,
-        midRowSkeleton,
-        botRowSkeleton
-      );
+      const rows = assembleRows(topRowSkeleton, midRowSkeleton, botRowSkeleton);
 
       //hand those rows to the movementModifier to add movement to circles and rectangles
       const rowsWithMovementMod = movementModifier(
         p5,
-        canvasSettings,
         animationModifierState.movementModifier,
         rows
       );
