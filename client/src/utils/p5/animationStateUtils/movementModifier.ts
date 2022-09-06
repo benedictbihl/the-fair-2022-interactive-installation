@@ -44,7 +44,7 @@ export function movementModifier(
         canvasSettings.gap -
         canvasSettings.circleSize;
 
-      let calcCircleMinTop = rows[0].rectangles[0].circles[1].y;
+      let calcCircleMinTop = rows[0].rectangles[0].circles![1].y;
       let calcCircleMaxTop =
         canvasSettings.canvasHeight / 2 -
         canvasSettings.gap -
@@ -105,7 +105,7 @@ export function movementModifier(
           RectTopMinHeight,
           RectTopMaxHeight
         );
-        rectangle.circles[1].y = p5.map(
+        rectangle.circles![1].y = p5.map(
           p5.noise(perlinVal[colIndex]),
           0.25,
           0.75,
@@ -114,6 +114,16 @@ export function movementModifier(
         );
 
         perlinVal[colIndex] += perlinValV[colIndex];
+      });
+
+      rows[0].gaps.forEach((gap, colIndex) => {
+        gap.h = p5.map(
+          p5.noise(perlinVal[colIndex]),
+          0.25,
+          0.75,
+          RectTopMinHeight,
+          RectTopMaxHeight
+        );
       });
 
       rows[1].rectangles.forEach((rectangle, colIndex) => {
@@ -132,19 +142,36 @@ export function movementModifier(
           RectMidMaxY
         );
 
-        rectangle.circles[0].y = p5.map(
+        rectangle.circles![0].y = p5.map(
           p5.noise(perlinVal[colIndex]),
           0.25,
           0.75,
           Circle1MidMinY,
           Circle1MidMaxY
         );
-        rectangle.circles[1].y = p5.map(
+        rectangle.circles![1].y = p5.map(
           p5.noise(perlinVal[colIndex]),
           0.25,
           0.75,
           Circle2MidMaxY,
           Circle2MidMinY
+        );
+      });
+
+      rows[1].gaps.forEach((gap, colIndex) => {
+        gap.h = p5.map(
+          p5.noise(perlinVal[colIndex]),
+          0.25,
+          0.75,
+          RectMidMaxHeight,
+          RectMidMinHeight
+        );
+        gap.y = p5.map(
+          p5.noise(perlinVal[colIndex]),
+          0.25,
+          0.75,
+          RectMidMinY,
+          RectMidMaxY
         );
       });
 
@@ -164,12 +191,29 @@ export function movementModifier(
           RectBotMaxY
         );
 
-        rectangle.circles[0].y = p5.map(
+        rectangle.circles![0].y = p5.map(
           p5.noise(perlinVal[colIndex]),
           0.25,
           0.75,
           Circle1BotMinY,
           Circle1BotMaxY
+        );
+      });
+
+      rows[2].gaps.forEach((gap, colIndex) => {
+        gap.h = p5.map(
+          p5.noise(perlinVal[colIndex]),
+          0.25,
+          0.75,
+          RectBotMinHeight,
+          RectBotMaxHeight
+        );
+        gap.y = p5.map(
+          p5.noise(perlinVal[colIndex]),
+          0.25,
+          0.75,
+          RectBotMinY,
+          RectBotMaxY
         );
       });
 
@@ -184,7 +228,7 @@ export function movementModifier(
         canvasSettings.gap -
         canvasSettings.circleSize;
 
-      let calcCircleMinTop = rows[0].rectangles[0].circles[1].y;
+      let calcCircleMinTop = rows[0].rectangles[0].circles![1].y;
       let calcCircleMaxTop =
         canvasSettings.canvasHeight / 2 -
         canvasSettings.gap -
@@ -207,6 +251,16 @@ export function movementModifier(
           calcCircleMaxTop
         );
         angles[colIndex] += angleV[colIndex];
+      });
+
+      rows[0].gaps.forEach((gap, colIndex) => {
+        gap.h = p5.map(
+          p5.sin(angles[colIndex]),
+          -1,
+          1,
+          RectTopMinHeight,
+          RectTopMaxHeight
+        );
       });
 
       let RectMidMinHeight = canvasSettings.circleSize * 2;
@@ -250,14 +304,14 @@ export function movementModifier(
           RectMidMaxY
         );
 
-        rectangle.circles[0].y = p5.map(
+        rectangle.circles![0].y = p5.map(
           p5.sin(angles[colIndex]),
           -1,
           1,
           Circle1MidMinY,
           Circle1MidMaxY
         );
-        rectangle.circles[1].y = p5.map(
+        rectangle.circles![1].y = p5.map(
           p5.sin(angles[colIndex]),
           -1,
           1,
@@ -265,6 +319,23 @@ export function movementModifier(
           Circle2MidMinY
         );
         //angles[colIndex] += angleV[colIndex];
+      });
+
+      rows[1].gaps.forEach((gap, colIndex) => {
+        gap.h = p5.map(
+          p5.sin(angles[colIndex]),
+          -1,
+          1,
+          RectMidMaxHeight,
+          RectMidMinHeight
+        );
+        gap.y = p5.map(
+          p5.sin(angles[colIndex]),
+          -1,
+          1,
+          RectMidMinY,
+          RectMidMaxY
+        );
       });
 
       let RectBotMinHeight = canvasSettings.circleSize * 2;
@@ -286,7 +357,7 @@ export function movementModifier(
         canvasSettings.gap +
         canvasSettings.circleSize / 2;
 
-      let Circle2BotMinY = rows[2].rectangles[0].circles[1].y;
+      let Circle2BotMinY = rows[2].rectangles[0].circles![1].y;
       let Circle2BotMaxY =
         canvasSettings.canvasHeight -
         canvasSettings.gap -
@@ -310,7 +381,7 @@ export function movementModifier(
           RectBotMaxY
         );
 
-        rectangle.circles[0].y = p5.map(
+        rectangle.circles![0].y = p5.map(
           p5.sin(angles[colIndex]),
           -1,
           1,
@@ -319,15 +390,30 @@ export function movementModifier(
         );
         //angles[colIndex] += angleV[colIndex];
       });
-
+      rows[2].gaps.forEach((gap, colIndex) => {
+        gap.h = p5.map(
+          p5.sin(angles[colIndex]),
+          -1,
+          1,
+          RectBotMinHeight,
+          RectBotMaxHeight
+        );
+        gap.y = p5.map(
+          p5.sin(angles[colIndex]),
+          -1,
+          1,
+          RectBotMinY,
+          RectBotMaxY
+        );
+      });
       return rows;
     }
 
     case MOVEMENT_MODIFIER.SINE_CIRCLES: {
       count += 0.02; //get things moving
 
-      let calcMaxTop = rows[1].rectangles[0].circles[0].y;
-      let calcMaxBot = rows[1].rectangles[0].circles[1].y;
+      let calcMaxTop = rows[1].rectangles[0].circles![0].y;
+      let calcMaxBot = rows[1].rectangles[0].circles![1].y;
 
       rows[1].rectangles.forEach((rectangle, rectIndex) => {
         let circleYSinTop = p5.map(
@@ -345,8 +431,8 @@ export function movementModifier(
           calcMaxBot
         );
 
-        rectangle.circles[0].y = circleYSinTop;
-        rectangle.circles[1].y = circleYSinBot;
+        rectangle.circles![0].y = circleYSinTop;
+        rectangle.circles![1].y = circleYSinBot;
 
         angles[rectIndex] += angleV[rectIndex];
       });
@@ -360,8 +446,8 @@ export function movementModifier(
       const traceMin = 5; // min distance of following bubble
       const traceMax = 50; // max distance of following bubble
 
-      let calcMaxTop = rows[1].rectangles[0].circles[0].y;
-      let calcMaxBot = rows[1].rectangles[0].circles[1].y;
+      let calcMaxTop = rows[1].rectangles[0].circles![0].y;
+      let calcMaxBot = rows[1].rectangles[0].circles![1].y;
 
       rows[1].rectangles.forEach((rectangle, rectIndex) => {
         const r = p5.random(0, 100);
@@ -391,8 +477,8 @@ export function movementModifier(
           traceMax
         );
 
-        rectangle.circles[0].y = newPositionY;
-        rectangle.circles[1].y = newPositionY - trace;
+        rectangle.circles![0].y = newPositionY;
+        rectangle.circles![1].y = newPositionY - trace;
 
         savedPositions[rectIndex] = newPositionY;
       });
