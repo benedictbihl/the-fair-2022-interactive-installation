@@ -43,6 +43,7 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
         topRadius: 0,
         botRadius: 200,
         rectangles: [],
+        gaps: [],
       };
 
       const midRowSkeleton: Row = {
@@ -52,6 +53,7 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
         topRadius: 200,
         botRadius: 200,
         rectangles: [],
+        gaps: [],
       };
 
       const botRowSkeleton: Row = {
@@ -61,6 +63,7 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
         topRadius: 200,
         botRadius: 0,
         rectangles: [],
+        gaps: [],
       };
 
       // iterate over canvasSettings.columnCount and draw a rectangle and two circles for each column
@@ -115,10 +118,12 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
   }
 
   return (
-    <div className="canvasWrapper">
-      <ReactP5Wrapper sketch={sketch} />
-      <ReactP5Wrapper sketch={additionalElements} />
-    </div>
+    <>
+      <div className="canvasWrapper">
+        <ReactP5Wrapper sketch={sketch} />
+        <ReactP5Wrapper sketch={additionalElements} />
+      </div>
+    </>
   );
 };
 

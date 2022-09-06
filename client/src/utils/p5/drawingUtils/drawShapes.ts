@@ -1,6 +1,7 @@
 import { P5Instance } from "react-p5-wrapper";
 
 import { canvasSettings } from "../../../constants/canvasSettings";
+import { COLORS } from "../../../constants/enums";
 import { Circle, Rectangle, Row } from "../../../constants/types";
 
 /**
@@ -12,9 +13,12 @@ import { Circle, Rectangle, Row } from "../../../constants/types";
  */
 export const drawRows = (p5: P5Instance, rows: Row[]) => {
   rows.forEach((row) => {
+    row.gaps.forEach((gap: Rectangle) => {
+      _drawRect(p5, gap);
+    });
     row.rectangles.forEach((rectangle) => {
       _drawRect(p5, rectangle);
-      rectangle.circles.forEach((circle) => {
+      rectangle.circles?.forEach((circle) => {
         _drawCircle(p5, circle);
       });
     });
@@ -102,6 +106,48 @@ export const assembleRows = (
 
   // iterate over canvasSettings.columnCount and draw a rectangle and two circles for each column
   for (let i = 0; i < canvasSettings.columnCount; i++) {
+    if (i < canvasSettings.columnCount - 1) {
+      topRowSkeleton.gaps.push({
+        x:
+          canvasSettings.padding +
+          i * (canvasSettings.circleSize * canvasSettings.circleOffset) +
+          topRowSkeleton.xpos +
+          canvasSettings.circleSize,
+        y: canvasSettings.padding + topRowSkeleton.ypos,
+        w: canvasSettings.gap + 2,
+        h: canvasSettings.circleSize * topRowSkeleton.height,
+        rTop: 0,
+        rBot: 0,
+        line: 0,
+      });
+
+      midRowSkeleton.gaps.push({
+        x:
+          canvasSettings.padding +
+          i * (canvasSettings.circleSize * canvasSettings.circleOffset) +
+          midRowSkeleton.xpos +
+          canvasSettings.circleSize,
+        y: canvasSettings.padding + midRowSkeleton.ypos,
+        w: canvasSettings.gap + 2,
+        h: canvasSettings.circleSize * midRowSkeleton.height,
+        rTop: 0,
+        rBot: 0,
+        line: 0,
+      });
+      botRowSkeleton.gaps.push({
+        x:
+          canvasSettings.padding +
+          i * (canvasSettings.circleSize * canvasSettings.circleOffset) +
+          botRowSkeleton.xpos +
+          canvasSettings.circleSize,
+        y: canvasSettings.padding + botRowSkeleton.ypos,
+        w: canvasSettings.gap + 2,
+        h: canvasSettings.circleSize * botRowSkeleton.height,
+        rTop: 0,
+        rBot: 0,
+        line: 0,
+      });
+    }
     topRowSkeleton.rectangles.push({
       x:
         canvasSettings.padding +

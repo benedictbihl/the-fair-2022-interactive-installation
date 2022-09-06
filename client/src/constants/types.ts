@@ -16,6 +16,7 @@ export type Row = {
   topRadius: number;
   botRadius: number;
   rectangles: Rectangle[];
+  gaps: Rectangle[];
 };
 
 export type Circle = {
@@ -37,7 +38,7 @@ export type Rectangle = {
   rBot: number;
   line: number;
   color?: COLORS;
-  circles: Circle[];
+  circles?: Circle[];
 };
 
 /* TYPINGS FOR P5 SPECIFIC STUFF */

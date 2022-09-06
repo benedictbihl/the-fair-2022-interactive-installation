@@ -12,6 +12,7 @@ export enum COLORS {
 export enum COLOR_MODIFIER {
   FILL_CIRCLES = "Fill Circles",
   FILL_RECTS_AND_CIRCLES = "Fill Rectangles and Circles",
+  FILL_GAPS_RECTS_AND_CIRCLES = "Fill Gaps, Rectangles and Circles",
 }
 
 export enum PIXEL_MODIFIER {
