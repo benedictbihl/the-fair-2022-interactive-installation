@@ -1,6 +1,8 @@
 import { P5Instance } from "react-p5-wrapper";
 
+import { canvasSettings } from "../../../constants/canvasSettings";
 import { PIXEL_MODIFIER } from "../../../constants/enums";
+let count = 0;
 
 /**
  * Function to modify the canvas drawings on a pixel base by turning the Canvas contents into an image.
@@ -13,16 +15,61 @@ export function pixelModifier(
   p5: P5Instance,
   pixelModifierState: PIXEL_MODIFIER | undefined
 ) {
-  document.querySelector("html")?.classList.remove("invert"); // in case previous color modifier was invert, remove it
+  document.querySelector("canvas")?.classList.remove();
+  p5.drawingContext.setLineDash([]);
 
   switch (pixelModifierState) {
-    case PIXEL_MODIFIER.PIXEL_SHIFT: {
-      applyPixelShift(p5);
+    case PIXEL_MODIFIER.WAVY_MODE: {
+      let img = p5.get(0, 0, p5.width, p5.height);
+      if (p5.frameCount % 5 === 0) count += 0.6; //get things moving
+      let slices = canvasSettings.columnCount * 1.5;
+      for (let i = 0; i < slices; i++) {
+        p5.copy(
+          img, // source image
+          0, // source x
+          (p5.height / slices) * i, // source y
+          p5.width, // source width
+          p5.height / slices, // source height
+          p5.sin(count + i), // target x
+          (p5.height / slices) * i, // target y
+          p5.width, // target width
+          p5.height / slices // target height
+        );
+      }
+      break;
+    }
+    case PIXEL_MODIFIER.SLICED_CANVAS: {
+      let img = p5.get(0, 0, p5.width, p5.height);
+
+      p5.background(0, 0, 0);
+      count += 0.03; //get things moving
+      let slices = 8;
+      for (let i = 0; i < slices; i++) {
+        p5.copy(
+          img, // source image
+          0, // source x
+          (p5.height / slices) * i, // source y
+          p5.width, // source width
+          p5.height / slices, // source height
+          p5.sin(count + i) * 50, // target x
+          (p5.height / slices) * i, // target y
+          p5.width, // target width
+          p5.height / slices // target height
+        );
+      }
+      break;
+    }
+    case PIXEL_MODIFIER.DOTTED_LINES: {
+      p5.drawingContext.setLineDash([8, 3, 3]);
+
       break;
     }
     case PIXEL_MODIFIER.INVERT_COLORS: {
-      //apply invert filter to html dom element
-      document.querySelector("html")?.classList.add("invert");
+      document.querySelector("canvas")?.classList.add("invert");
+      break;
+    }
+    case PIXEL_MODIFIER.BLUR_FILTER: {
+      document.querySelector("canvas")?.classList.add("blur");
       break;
     }
     default: {
@@ -30,40 +77,3 @@ export function pixelModifier(
     }
   }
 }
-
-const applyPixelShift = (p5: P5Instance) => {
-  let img = p5.get(0, 0, p5.width, p5.height);
-
-  // Tell p5 we're working with pixels
-  img.loadPixels();
-
-  const newPixels = [];
-
-  // Loop through the pixels
-  for (let y = 0; y < p5.height; y++) {
-    for (let x = 0; x < p5.width; x++) {
-      // Get the index for our current pixel
-      const index = (y * p5.width + x) * 4;
-
-      // And the index for one pixel to the right
-      let nextIndex = (y * p5.width + x) * 4 + 4 * p5.int(p5.random(-3, 3));
-      nextIndex = nextIndex % (p5.width * p5.height * 4);
-
-      const r = img.pixels[nextIndex + 0];
-      const g = img.pixels[nextIndex + 1];
-      const b = img.pixels[nextIndex + 2];
-
-      newPixels.push(r, g, b, 255);
-    }
-  }
-
-  for (let i = 0; i < newPixels.length; i++) {
-    img.pixels[i] = newPixels[i];
-  }
-
-  // We're finished working with pixels
-  img.updatePixels();
-
-  // Draw the images
-  p5.image(img, 0, 0);
-};

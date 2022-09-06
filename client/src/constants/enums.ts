@@ -15,8 +15,11 @@ export enum COLOR_MODIFIER {
 }
 
 export enum PIXEL_MODIFIER {
-  PIXEL_SHIFT = "Pixel Shift",
+  WAVY_MODE = "Wavy Mode",
+  SLICED_CANVAS = "Sliced Canvas",
+  DOTTED_LINES = "Dotted Lines",
   INVERT_COLORS = "Invert Colors",
+  BLUR_FILTER = "Blur Filter",
 }
 
 export enum MOVEMENT_MODIFIER {
