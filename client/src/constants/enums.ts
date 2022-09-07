@@ -28,6 +28,7 @@ export enum MOVEMENT_MODIFIER {
   DYNAMIC_ROW_HEIGHT_PERLIN = "Dynamic Row Height Perlin",
   SINE_CIRCLES = "Sine Circles",
   SPECTRUM = "Spectrum",
+  FUNKY = "Funky",
 }
 
 export enum SHAPE_MODIFIER {

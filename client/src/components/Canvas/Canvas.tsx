@@ -103,6 +103,15 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
       //this modifier does not draw elements directly, but works on a pixel base
       // -> we only call it after the drawing is finished
       pixelModifier(p5, animationModifierState.pixelModifier);
+
+      if (animationModifierState.movementModifier === "Funky") {
+        const black = p5.color("rgba(0,0,0, 1)");
+        const transparent = p5.color("rgba(0,0,0, 0)");
+        const width = 200;
+        const height = p5.height;
+        setGradient(p5, 0, 0, width, height, black, transparent);
+        setGradient(p5, p5.width - width, 0, width, height, transparent, black);
+      }
     };
   }
 
@@ -123,6 +132,27 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
         animationModifierState.additionalElementsModifier
       );
     };
+  }
+
+  function setGradient(
+    p5: P5Instance,
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    c1: any,
+    c2: any
+  ) {
+    p5.push();
+    p5.noFill();
+
+    for (let i = x; i <= x + w; i++) {
+      let inter = p5.map(i, x, x + w, 0, 1);
+      let c = p5.lerpColor(c1, c2, inter);
+      p5.stroke(c);
+      p5.line(i, y, i, y + h);
+    }
+    p5.pop();
   }
 
   return (

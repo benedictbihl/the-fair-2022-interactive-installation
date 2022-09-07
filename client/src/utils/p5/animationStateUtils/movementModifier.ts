@@ -3,6 +3,7 @@ import { P5Instance } from "react-p5-wrapper";
 import { canvasSettings } from "../../../constants/canvasSettings";
 import { MOVEMENT_MODIFIER } from "../../../constants/enums";
 import { Row } from "../../../constants/types";
+import { assembleRows } from "../drawingUtils/drawShapes";
 
 let count = 0;
 
@@ -12,7 +13,8 @@ let angleV: number[] = [];
 let perlinVal: number[] = [];
 let perlinValV: number[] = [];
 
-let savedPositions: number[] = [];
+let savedPositions: any[] = [];
+let savedRowPositions: any[] = [[], [], []];
 
 for (let i = 0; i < canvasSettings.columnCount; i++) {
   angles.push(0);
@@ -243,7 +245,7 @@ export function movementModifier(
           RectTopMinHeight,
           RectTopMaxHeight
         );
-        rectangle.circles[1].y = p5.map(
+        rectangle.circles![1].y = p5.map(
           p5.sin(angles[colIndex]),
           -1,
           1,
@@ -481,6 +483,49 @@ export function movementModifier(
         rectangle.circles![1].y = newPositionY - trace;
 
         savedPositions[rectIndex] = newPositionY;
+      });
+
+      return rows;
+    }
+
+    case MOVEMENT_MODIFIER.FUNKY: {
+      count += 0.04;
+      const dynamicSpeed = 4 + p5.sin(count) * 2 * p5.cos(count * 2) * 5;
+
+      rows.forEach((row, rowIndex) => {
+        row.rectangles.forEach((rectangle, rectIndex) => {
+          let currentPositionX = savedRowPositions[rowIndex][rectIndex];
+          if (typeof currentPositionX === "undefined") {
+            currentPositionX = rectangle.x;
+          }
+
+          // set different speed per row
+          let newPositionX = currentPositionX + dynamicSpeed;
+          if (rowIndex === 1) {
+            newPositionX = currentPositionX + dynamicSpeed * 2;
+          }
+          if (rowIndex === 2) {
+            newPositionX = currentPositionX + dynamicSpeed * 2.5;
+          }
+
+          // check if element goes beyond right side of canvas
+          if (currentPositionX >= p5.width - canvasSettings.padding + 1) {
+            newPositionX = canvasSettings.padding;
+          }
+
+          // check if element goes beyond left side of canvas
+          if (currentPositionX <= -1) {
+            newPositionX = p5.width - canvasSettings.padding;
+          }
+
+          rectangle.x = newPositionX;
+
+          const circleOffset = canvasSettings.circleSize / 2;
+          rectangle.circles![0].x = newPositionX + circleOffset;
+          rectangle.circles![1].x = newPositionX + circleOffset;
+
+          savedRowPositions[rowIndex][rectIndex] = newPositionX;
+        });
       });
 
       return rows;
