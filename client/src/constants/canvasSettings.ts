@@ -18,6 +18,6 @@ export const canvasSettings: CanvasSettings = {
       this.circleSize
     );
   },
-  canvasHeight: 540,
+  canvasHeight: 650,
   circleOffset: 0.6,
 };

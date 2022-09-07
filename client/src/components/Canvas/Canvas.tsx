@@ -23,17 +23,25 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
     };
 
     p5.draw = () => {
-      p5.background(0, 0, 0);
+      p5.background(50, 50, 50);
 
       // set up the row skeletons without rectangles or circles
       const heightTopRow = 2;
       const yPosMidRow =
         heightTopRow * canvasSettings.circleSize + canvasSettings.gap;
-      const heightMidRow = 4;
+
+      const heightMidRow =
+        (canvasSettings.canvasHeight -
+          canvasSettings.padding * 2 -
+          canvasSettings.circleSize * 4 -
+          canvasSettings.gap * 2) /
+        canvasSettings.circleSize;
+
       const yPosBotRow =
-        yPosMidRow +
-        heightMidRow * canvasSettings.circleSize +
-        canvasSettings.gap;
+        canvasSettings.canvasHeight -
+        canvasSettings.padding * 2 -
+        canvasSettings.circleSize * 2;
+
       const heightBotRow = 2;
 
       const topRowSkeleton: Row = {
