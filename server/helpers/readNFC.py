@@ -42,7 +42,7 @@ def nfc_setup(sio, loop):
 async def readNFC(sio, pn532):
     while True:
         # Check if a card is available to read
-        await asyncio.sleep(0.5)
+        await asyncio.sleep(5)
         uid = pn532.read_passive_target(timeout=1)
         print('.', end="")
         # Try again if no card is available.
@@ -50,7 +50,5 @@ async def readNFC(sio, pn532):
             continue
         print('Found card with UID:', [hex(i) for i in uid])
         print('Sending to Client')
-        await asyncio.sleep(2)  # fake 2 second delay to simulate reading
         # send as int to client
         await sio.send(int.from_bytes(uid, byteorder='big'))
-        print('Sent to Client')
