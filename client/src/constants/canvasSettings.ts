@@ -1,8 +1,8 @@
 import { CanvasSettings } from "./types";
 
 export const canvasSettings: CanvasSettings = {
-  scaleFactor: 5,
-  columnCount: 15,
+  scaleFactor: 8,
+  columnCount: 21,
   rowCount: 3,
   gap: 10,
   get padding() {
@@ -18,6 +18,6 @@ export const canvasSettings: CanvasSettings = {
       this.circleSize
     );
   },
-  canvasHeight: 650,
+  canvasHeight: window.innerHeight * 0.75,
   circleOffset: 0.6,
 };

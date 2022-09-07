@@ -23,7 +23,7 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
     };
 
     p5.draw = () => {
-      p5.background(50, 50, 50);
+      p5.background(0, 0, 0);
 
       // set up the row skeletons without rectangles or circles
       const heightTopRow = 2;
