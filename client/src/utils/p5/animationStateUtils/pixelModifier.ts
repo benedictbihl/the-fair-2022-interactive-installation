@@ -19,26 +19,7 @@ export function pixelModifier(
   p5.drawingContext.setLineDash([]);
 
   switch (pixelModifierState) {
-    case PIXEL_MODIFIER.WAVY_MODE: {
-      let img = p5.get(0, 0, p5.width, p5.height);
-      if (p5.frameCount % 5 === 0) count += 0.6; //get things moving
-      let slices = canvasSettings.columnCount * 1.5;
-      for (let i = 0; i < slices; i++) {
-        p5.copy(
-          img, // source image
-          0, // source x
-          (p5.height / slices) * i, // source y
-          p5.width, // source width
-          p5.height / slices, // source height
-          p5.sin(count + i), // target x
-          (p5.height / slices) * i, // target y
-          p5.width, // target width
-          p5.height / slices // target height
-        );
-      }
-      break;
-    }
-    case PIXEL_MODIFIER.SLICED_CANVAS: {
+    case PIXEL_MODIFIER.SLICED_CANVAS_HORIZONTAL: {
       let img = p5.get(0, 0, p5.width, p5.height);
 
       p5.background(0, 0, 0);
@@ -55,6 +36,27 @@ export function pixelModifier(
           (p5.height / slices) * i, // target y
           p5.width, // target width
           p5.height / slices // target height
+        );
+      }
+      break;
+    }
+    case PIXEL_MODIFIER.SLICED_CANVAS_VERTICAL: {
+      let img = p5.get(0, 0, p5.width, p5.height);
+
+      p5.background(0, 0, 0);
+      count += 0.04; //get things moving
+      let slices = 11;
+      for (let i = 0; i < slices; i++) {
+        p5.copy(
+          img, // source image
+          (p5.width / slices) * i, // source x
+          0, // source y
+          p5.width / slices, // source width
+          p5.height, // source height
+          (p5.width / slices) * i, // target x
+          p5.sin(count + i) * 50, // target y
+          p5.width / slices, // target width
+          p5.height // target height
         );
       }
       break;
