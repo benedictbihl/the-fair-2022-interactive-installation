@@ -23,7 +23,7 @@ const DebugPanel: FC<IDebugPanelProps> = ({
   animationModifierState,
   setAnimationModifierState,
 }) => {
-  const [showPanel, setShowPanel] = useState(true);
+  const [showPanel, setShowPanel] = useState(false);
 
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
@@ -33,9 +33,7 @@ const DebugPanel: FC<IDebugPanelProps> = ({
             "Clean local storage to remove all IDs and the animationState?"
           ) == true
         ) {
-          localStorage.removeItem("IDModifierMap");
-          localStorage.removeItem("animationModifierState");
-          localStorage.removeItem("usedModifiers");
+          localStorage.clear();
           // reload page to reset state
           window.location.reload();
         }
@@ -63,7 +61,10 @@ const DebugPanel: FC<IDebugPanelProps> = ({
           onChange={(e) => {
             setAnimationModifierState({
               ...animationModifierState,
-              shapeModifier: e.target.value as SHAPE_MODIFIER,
+              shapeModifier:
+                e.target.value === "No Modifier"
+                  ? undefined
+                  : (e.target.value as SHAPE_MODIFIER),
             });
           }}
         >
@@ -84,8 +85,10 @@ const DebugPanel: FC<IDebugPanelProps> = ({
           onChange={(e) => {
             setAnimationModifierState({
               ...animationModifierState,
-              additionalElementsModifier: e.target
-                .value as ADDITIONAL_ELEMENTS_MODIFIER,
+              additionalElementsModifier:
+                e.target.value === "No Modifier"
+                  ? undefined
+                  : (e.target.value as ADDITIONAL_ELEMENTS_MODIFIER),
             });
           }}
         >
@@ -105,7 +108,10 @@ const DebugPanel: FC<IDebugPanelProps> = ({
           onChange={(e) => {
             setAnimationModifierState({
               ...animationModifierState,
-              colorModifier: e.target.value as COLOR_MODIFIER,
+              colorModifier:
+                e.target.value === "No Modifier"
+                  ? undefined
+                  : (e.target.value as COLOR_MODIFIER),
             });
           }}
         >
@@ -125,7 +131,10 @@ const DebugPanel: FC<IDebugPanelProps> = ({
           onChange={(e) => {
             setAnimationModifierState({
               ...animationModifierState,
-              movementModifier: e.target.value as MOVEMENT_MODIFIER,
+              movementModifier:
+                e.target.value === "No Modifier"
+                  ? undefined
+                  : (e.target.value as MOVEMENT_MODIFIER),
             });
           }}
         >
@@ -145,7 +154,10 @@ const DebugPanel: FC<IDebugPanelProps> = ({
           onChange={(e) => {
             setAnimationModifierState({
               ...animationModifierState,
-              pixelModifier: e.target.value as PIXEL_MODIFIER,
+              pixelModifier:
+                e.target.value === "No Modifier"
+                  ? undefined
+                  : (e.target.value as PIXEL_MODIFIER),
             });
           }}
         >
