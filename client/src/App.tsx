@@ -3,8 +3,10 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
 
+import BottomContent from "./components/BottomContent";
 import Canvas from "./components/Canvas";
 import DebugPanel from "./components/DebugPanel";
+import TopContent from "./components/TopContent";
 import { AnimationModifierState } from "./constants/types";
 import { pickModifier } from "./utils/p5/randomizing/pickModifier";
 
@@ -27,7 +29,12 @@ const App = () => {
     JSON.parse(localStorage.getItem("usedModifiers") ?? "[]")
   );
 
+  const [numberOfInteractions, setNumberOfInteractions] = useState(
+    parseInt(localStorage.getItem("numberOfInteractions") ?? "0")
+  );
+
   const [currentID, setCurrentID] = useState<number | undefined>();
+
   useEffect(() => {
     socket.on("connect", () => {
       console.log("connected");
@@ -43,11 +50,13 @@ const App = () => {
     };
   }, []);
 
-  // save the state to local storage
   useEffect(() => {
     socket.on("message", function (data: number) {
       console.log("Received an ID from the server: ", data);
       setCurrentID(data);
+      setNumberOfInteractions(
+        (numberOfInteractions) => numberOfInteractions + 1
+      );
 
       //go here if the IDs has already been mapped to a modifier
       if (IDModifierMap?.get(data)) {
@@ -99,6 +108,10 @@ const App = () => {
       "animationModifierState",
       JSON.stringify(animationModifierState)
     );
+    localStorage.setItem(
+      "numberOfInteractions",
+      JSON.stringify(numberOfInteractions)
+    );
 
     return () => {
       socket.off("message");
@@ -112,7 +125,13 @@ const App = () => {
         animationModifierState={animationModifierState}
         setAnimationModifierState={setAnimationModifierState}
       />
+      <TopContent />
       <Canvas animationModifierState={animationModifierState} />
+      <BottomContent
+        nfcID={currentID}
+        animationModifierState={animationModifierState}
+        numberOfInteractions={numberOfInteractions}
+      />
     </>
   );
 };

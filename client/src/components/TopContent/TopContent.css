@@ -1,0 +1,45 @@
+.topContentWrapper {
+  padding: 24px;
+  color: #fff;
+
+  display: grid;
+  justify-content: space-between;
+  align-items: center;
+
+  position: absolute;
+  width: 100vw;
+}
+
+.headlineContainer {
+  display: flex;
+  align-items: center;
+}
+
+.headlineContainer svg {
+  animation: blinking 1s infinite;
+  animation-direction: alternate;
+}
+
+.headlineContainer h1 {
+  font-size: 18px;
+  text-transform: capitalize;
+  font-weight: 400;
+
+  height: fit-content;
+  padding: 8px 16px;
+}
+
+.scrollingTextContainer {
+  vertical-align: middle;
+  color: var(--grey);
+}
+
+@keyframes blinking {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

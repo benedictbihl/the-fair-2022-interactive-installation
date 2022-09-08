@@ -1,4 +1,9 @@
 :root {
   /* Fonts */
   --font-family: "IBM Plex Mono", sans-serif;
+  --font-size-base: 20px;
+
+  /* Colors */
+  --grey: #7f7f7f;
+  --orange: #f15623;
 }

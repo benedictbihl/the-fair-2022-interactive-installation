@@ -1,6 +1,7 @@
 .canvasWrapper {
   width: 100vw;
   height: 100vh;
+  position: relative;
 }
 
 label {
@@ -12,4 +13,49 @@ label {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+#defaultCanvas1 {
+  z-index: 3;
+}
+
+.cutMarksWrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.cutmark {
+  position: absolute;
+  width: 63px;
+  height: 63px;
+}
+
+.cutmark.topleft {
+  top: 0;
+  left: 0;
+}
+
+.cutmark.topright {
+  top: 0;
+  right: 0;
+}
+
+.cutmark.bottomleft {
+  bottom: 0;
+  left: 0;
+}
+.cutmark.bottomright {
+  bottom: 0;
+  right: 0;
+}
+
+canvas.invert {
+  filter: invert(100%);
+}
+
+canvas.blur {
+  filter: blur(5px);
 }

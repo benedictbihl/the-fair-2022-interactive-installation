@@ -3,6 +3,7 @@ import "./Canvas.css";
 import { FC } from "react";
 import { P5Instance, ReactP5Wrapper } from "react-p5-wrapper";
 
+import { ReactComponent as CutMark } from "../../assets/icons/cutmark.svg";
 import { canvasSettings } from "../../constants/canvasSettings";
 import { AnimationModifierState, Row } from "../../constants/types";
 import { additionalElementsModifier } from "../../utils/p5/animationStateUtils/additionalElementsModifier";
@@ -118,7 +119,7 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
   // add additional elements like the colorworm on top of the base sketch
   function additionalElements(p5: P5Instance) {
     p5.setup = () => {
-      p5.createCanvas(canvasSettings.canvasWidth, canvasSettings.canvasHeight);
+      p5.createCanvas(window.innerWidth, window.innerHeight);
       p5.noStroke();
       p5.clear(0, 0, 0, 0); // transparent background as this canvas lies on top of the base sketch
     };
@@ -157,10 +158,20 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
 
   return (
     <>
-      <div className="canvasWrapper">
-        <ReactP5Wrapper sketch={sketch} />
-        <ReactP5Wrapper sketch={additionalElements} />
+      <div
+        style={{
+          width: canvasSettings.canvasWidth + 63,
+          height: canvasSettings.canvasHeight + 63,
+        }}
+        className="cutMarksWrapper"
+      >
+        <CutMark className="cutmark topleft" />
+        <CutMark className="cutmark topright" />
+        <CutMark className="cutmark bottomleft" />
+        <CutMark className="cutmark bottomright" />
       </div>
+      <ReactP5Wrapper sketch={sketch}></ReactP5Wrapper>
+      <ReactP5Wrapper sketch={additionalElements} />
     </>
   );
 };
