@@ -3,7 +3,6 @@ export enum COLORS {
   REVERB_BLUE = "#704cfe",
   PURPLE_NOISE = "#460073",
   VANILLA_PHASER = "#ece3d0",
-  // BLACK = "#000000",
   GOLD_TUNE = "#cd9e3c",
 }
 
@@ -16,26 +15,26 @@ export enum COLOR_MODIFIER {
 }
 
 export enum PIXEL_MODIFIER {
-  SLICED_CANVAS = "Sliced Canvas",
+  SLICED_CANVAS_HORIZONTAL = "Horizontal Slices",
   DOTTED_LINES = "Dotted Lines",
-  WAVY_MODE = "Wavy Mode",
-  INVERT_COLORS = "Invert Colors",
+  SLICED_CANVAS_VERTICAL = "Vertical Slices",
   BLUR_FILTER = "Blur Filter",
+  INVERT_COLORS = "Invert Colors",
 }
 
 export enum MOVEMENT_MODIFIER {
   DYNAMIC_ROW_HEIGHT = "Dynamic Height",
-  DYNAMIC_ROW_HEIGHT_PERLIN = "Dyn. Height Perlin",
   SINE_CIRCLES = "Sine Circles",
-  SPECTRUM = "Spectrum",
   FUNKY = "Funky",
+  DYNAMIC_ROW_HEIGHT_PERLIN = "Dyn. Height Perlin",
+  SPECTRUM = "Spectrum",
 }
 
 export enum SHAPE_MODIFIER {
   PERLIN_NOISE = "Perlin Noise",
   DYNAMIC_SIZE_CENTER = "Dynamic Size Center",
-  DYNAMIC_SIZE_VERTICAL = "Dynamic Size Vert.",
   DYNAMIC_SIZE_HORIZONTAL = "Dynamic Size Hor.",
+  DYNAMIC_SIZE_VERTICAL = "Dynamic Size Vert.",
 }
 
 export enum ADDITIONAL_ELEMENTS_MODIFIER {
