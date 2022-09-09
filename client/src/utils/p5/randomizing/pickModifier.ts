@@ -33,7 +33,6 @@ export const pickModifier = (
 ): any => {
   //if its the first ID, or the 5th one for example
   if (modifierMap.size % 5 === 0) {
-    console.log("first");
     const values = Object.keys(MOVEMENT_MODIFIER);
     const enumKey = pickLeastUsedModifier(usedModifiers, values);
     const updatedUsedModifiers = [...usedModifiers, enumKey];
@@ -47,7 +46,6 @@ export const pickModifier = (
 
   //if its the second ID, or the 6th one for example
   if (modifierMap.size % 5 === 1) {
-    console.log("second");
     const values = Object.keys(COLOR_MODIFIER);
     const enumKey = pickLeastUsedModifier(usedModifiers, values);
     const updatedUsedModifiers = [...usedModifiers, enumKey];
@@ -60,7 +58,6 @@ export const pickModifier = (
 
   //if its the third ID, or the 7th one for example
   if (modifierMap.size % 5 === 2) {
-    console.log("third");
     const values = Object.keys(SHAPE_MODIFIER);
     const enumKey = pickLeastUsedModifier(usedModifiers, values);
     const updatedUsedModifiers = [...usedModifiers, enumKey];
@@ -73,7 +70,6 @@ export const pickModifier = (
 
   //if its the fourth ID, or the 8th one for example
   if (modifierMap.size % 5 === 3) {
-    console.log("fourth");
     const values = Object.keys(PIXEL_MODIFIER);
     const enumKey = pickLeastUsedModifier(usedModifiers, values);
     const updatedUsedModifiers = [...usedModifiers, enumKey];
@@ -86,17 +82,35 @@ export const pickModifier = (
 
   // if its the fifth ID, or the 9th one for example
   if (modifierMap.size % 5 === 4) {
-    console.log("fifth");
-    const values = Object.keys(ADDITIONAL_ELEMENTS_MODIFIER);
-    const enumKey = pickLeastUsedModifier(usedModifiers, values);
-    const updatedUsedModifiers = [...usedModifiers, enumKey];
-    setUsedModifiers([...usedModifiers, enumKey]);
-    localStorage.setItem("usedModifiers", JSON.stringify(updatedUsedModifiers));
-    return {
-      additionalElementsModifier:
-        ADDITIONAL_ELEMENTS_MODIFIER[
-          enumKey as keyof typeof ADDITIONAL_ELEMENTS_MODIFIER
-        ],
-    };
+    if (Math.random() < 0.7) {
+      //70% chance of getting an additional element - we want this somewhat rare
+      const values = Object.keys(ADDITIONAL_ELEMENTS_MODIFIER);
+      const enumKey = pickLeastUsedModifier(usedModifiers, values);
+      const updatedUsedModifiers = [...usedModifiers, enumKey];
+      setUsedModifiers([...usedModifiers, enumKey]);
+      localStorage.setItem(
+        "usedModifiers",
+        JSON.stringify(updatedUsedModifiers)
+      );
+      return {
+        additionalElementsModifier:
+          ADDITIONAL_ELEMENTS_MODIFIER[
+            enumKey as keyof typeof ADDITIONAL_ELEMENTS_MODIFIER
+          ],
+      };
+    } else {
+      const values = Object.keys(MOVEMENT_MODIFIER);
+      const enumKey = pickLeastUsedModifier(usedModifiers, values);
+      const updatedUsedModifiers = [...usedModifiers, enumKey];
+      setUsedModifiers([...usedModifiers, enumKey]);
+      localStorage.setItem(
+        "usedModifiers",
+        JSON.stringify(updatedUsedModifiers)
+      );
+      return {
+        movementModifier:
+          MOVEMENT_MODIFIER[enumKey as keyof typeof MOVEMENT_MODIFIER],
+      };
+    }
   }
 };
