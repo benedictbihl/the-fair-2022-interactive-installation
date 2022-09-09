@@ -51,6 +51,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    // socket-io stuff
     socket.on("message", function (data: number) {
       console.log("Received an ID from the server: ", data);
       setCurrentID(data);
@@ -100,6 +101,7 @@ const App = () => {
       }
     });
 
+    // save the state to local storage
     localStorage.setItem(
       "IDModifierMap",
       JSON.stringify(Array.from(IDModifierMap.entries()))
@@ -117,6 +119,21 @@ const App = () => {
       socket.off("message");
     };
   }, [IDModifierMap, animationModifierState]);
+
+  //reset the additional elements modifier after 5 minutes
+  useEffect(() => {
+    let timer1 = setTimeout(
+      () =>
+        setAnimationModifierState((animationModifierState) => ({
+          ...animationModifierState,
+          additionalElementsModifier: undefined,
+        })),
+      5 * 60 * 1000
+    );
+    return () => {
+      clearTimeout(timer1);
+    };
+  }, [animationModifierState.additionalElementsModifier]);
 
   return (
     <>

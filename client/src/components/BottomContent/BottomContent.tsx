@@ -38,10 +38,10 @@ const BottomContent: FC<{
       });
 
       setCurrentAnimationModifierState(animationModifierState);
-
-      setTimeout(() => {
-        setLastChangedModifier("");
-      }, 6000);
+      let timer1 = setTimeout(() => setLastChangedModifier(""), 6000);
+      return () => {
+        clearTimeout(timer1);
+      };
     }
   }, [animationModifierState]);
 
