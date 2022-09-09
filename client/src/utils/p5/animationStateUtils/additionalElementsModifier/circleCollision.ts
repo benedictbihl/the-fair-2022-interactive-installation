@@ -142,6 +142,7 @@ class Ball {
   display(p5Instance) {
     p5Instance.noStroke();
     p5Instance.fill(this.color);
+    p5Instance.stroke("#FFF");
     p5Instance.ellipse(
       this.position.x,
       this.position.y,
@@ -154,6 +155,7 @@ class Ball {
 const balls = [
   new Ball(10, 400, 30, COLORS.GOLD_TUNE),
   new Ball(50, 300, 70, COLORS.PURPLE_NOISE),
+  new Ball(0, 0, 100, COLORS.ORANGE_FUZZ),
 ];
 
 export function drawCollidingCircles(p5Instance) {
@@ -163,5 +165,7 @@ export function drawCollidingCircles(p5Instance) {
     b.display(p5Instance);
     b.checkBoundaryCollision(p5Instance);
     balls[0].checkCollision(balls[1], p5Instance);
+    balls[1].checkCollision(balls[2], p5Instance);
+    balls[2].checkCollision(balls[0], p5Instance);
   }
 }
