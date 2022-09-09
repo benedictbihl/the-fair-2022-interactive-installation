@@ -141,8 +141,10 @@ class Ball {
 
   display(p5Instance) {
     p5Instance.noStroke();
+    p5Instance.drawingContext.shadowBlur = 100;
+    p5Instance.drawingContext.shadowColor =
+      p5Instance.color("rgba(0, 0, 0, .5)");
     p5Instance.fill(this.color);
-    p5Instance.stroke("#FFF");
     p5Instance.ellipse(
       this.position.x,
       this.position.y,
