@@ -443,17 +443,16 @@ export function movementModifier(
     }
 
     case MOVEMENT_MODIFIER.SPECTRUM: {
-      const speed = 0.8; // speed 0-1
-      const randomPushUp = 0.1; // randomly push bubbles up 0-1
-      const traceMin = 5; // min distance of following bubble
-      const traceMax = 50; // max distance of following bubble
+      const speed = 0.82; // speed 0-1
+      const traceMin = -20; // min distance of following bubble
+      const traceMax = 20; // max distance of following bubble
 
-      let calcMaxTop = rows[1].rectangles[0].circles![0].y;
-      let calcMaxBot = rows[1].rectangles[0].circles![1].y;
+      let calcMaxTop = rows[0].rectangles[0].circles![0].y - traceMin * 5;
+      let calcMaxBot = rows[2].rectangles[0].circles![1].y - traceMax * 5;
 
       rows[1].rectangles.forEach((rectangle, rectIndex) => {
-        const r = p5.random(0, 100);
-        const randomPositionY = p5.map(r, 0, 100, calcMaxTop, calcMaxBot);
+        const r = Math.floor(Math.random() * 1001);
+        const randomPositionY = p5.map(r, 0, 1000, calcMaxTop, calcMaxBot);
 
         let currentPosY = savedPositions[rectIndex];
         if (typeof currentPosY === "undefined") currentPosY = calcMaxBot;
@@ -461,15 +460,7 @@ export function movementModifier(
         const currentSpeed = currentPosY / p5.map(speed, 0.1, 1, 500, 1);
         let newPositionY = currentPosY + currentSpeed;
 
-        let pushUp = false;
-        if (
-          p5.random(0.1, 1) <= randomPushUp &&
-          currentPosY > randomPositionY
-        ) {
-          pushUp = true;
-        }
-
-        if (currentPosY >= calcMaxBot || pushUp) newPositionY = randomPositionY;
+        if (currentPosY >= calcMaxBot) newPositionY = randomPositionY;
 
         const trace = p5.map(
           newPositionY,
@@ -479,8 +470,14 @@ export function movementModifier(
           traceMax
         );
 
-        rectangle.circles![0].y = newPositionY;
-        rectangle.circles![1].y = newPositionY - trace;
+        rows[0].rectangles[rectIndex].circles![0].y = newPositionY;
+        rows[0].rectangles[rectIndex].circles![1].y = newPositionY + trace;
+
+        rectangle.circles![0].y = newPositionY + trace * 2;
+        rectangle.circles![1].y = newPositionY + trace * 3;
+
+        rows[2].rectangles[rectIndex].circles![0].y = newPositionY + trace * 4;
+        rows[2].rectangles[rectIndex].circles![1].y = newPositionY + trace * 5;
 
         savedPositions[rectIndex] = newPositionY;
       });
