@@ -16,10 +16,10 @@ const TopContent = () => {
       </div>
       <div className="scrollingTextContainer">
         <Marquee speed={40} gradientColor={[0, 0, 0]}>
-          Berlin • Hamburg • Frankfurt • Munich • Vienna • Zuerich • Berlin •
-          Hamburg • Frankfurt • Munich • Vienna • Zuerich • Berlin • Hamburg •
-          Frankfurt • Munich • Vienna • Zuerich • Berlin • Hamburg • Frankfurt •
-          Munich • Vienna • Zuerich •
+          Berlin • Hamburg • Frankfurt • Munich • Vienna • Zurich • Berlin •
+          Hamburg • Frankfurt • Munich • Vienna • Zurich • Berlin • Hamburg •
+          Frankfurt • Munich • Vienna • Zurich • Berlin • Hamburg • Frankfurt •
+          Munich • Vienna • Zurich •
         </Marquee>
       </div>
     </div>
