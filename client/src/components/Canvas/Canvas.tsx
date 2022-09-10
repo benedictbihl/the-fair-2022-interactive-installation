@@ -1,21 +1,23 @@
 import "./Canvas.css";
 
-import { FC } from "react";
+import { FC, useState } from "react";
 import { P5Instance, ReactP5Wrapper } from "react-p5-wrapper";
 
 import { ReactComponent as CutMark } from "../../assets/icons/cutmark.svg";
 import { canvasSettings } from "../../constants/canvasSettings";
-import { AnimationModifierState, Row } from "../../constants/types";
+import { AnimationModifierState, ColorPair, Row } from "../../constants/types";
 import { additionalElementsModifier } from "../../utils/p5/animationStateUtils/additionalElementsModifier";
 import { colorModifier } from "../../utils/p5/animationStateUtils/colorModifier";
 import { movementModifier } from "../../utils/p5/animationStateUtils/movementModifier";
 import { pixelModifier } from "../../utils/p5/animationStateUtils/pixelModifier";
 import { shapeModifier } from "../../utils/p5/animationStateUtils/shapeModifiers";
 import { assembleRows, drawRows } from "../../utils/p5/drawingUtils/drawShapes";
+import AnimatedBars from "../AnimatedBars";
 
 const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
   animationModifierState,
 }) => {
+  const [colorPair, setColorPair] = useState<ColorPair | undefined>(undefined);
   // draw the base sketch
   function sketch(p5: P5Instance) {
     p5.setup = () => {
@@ -86,11 +88,13 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
       );
 
       //hand those rows with movement mods to the colorModifier to add color to circles and rectangles
-      const rowsWithMovementAndColorMod = colorModifier(
+      const { rows: rowsWithMovementAndColorMod, colorPair } = colorModifier(
         p5,
         animationModifierState.colorModifier,
         rowsWithMovementMod
       );
+
+      setColorPair(colorPair);
 
       const rowsWithMovementAndColorModAndShapeMod = shapeModifier(
         p5,
@@ -158,6 +162,7 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
 
   return (
     <>
+      <AnimatedBars colorPair={colorPair} />
       <div
         style={{
           width: canvasSettings.canvasWidth + 63,

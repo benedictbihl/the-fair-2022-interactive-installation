@@ -48,7 +48,7 @@ export function colorModifier(
   p5: P5Instance,
   colorModifierState: COLOR_MODIFIER | undefined,
   rows: Row[]
-): Row[] {
+): { rows: Row[]; colorPair: ColorPair } {
   // only generate new colors if the modifier has changed
   if (colorModifierState !== currentModifier) {
     counter++;
@@ -118,5 +118,5 @@ export function colorModifier(
     }
   }
 
-  return rows;
+  return { rows: rows, colorPair: randomColorPair };
 }

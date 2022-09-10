@@ -114,7 +114,7 @@ export const assembleRows = (
           topRowSkeleton.xpos +
           canvasSettings.circleSize,
         y: canvasSettings.padding + topRowSkeleton.ypos,
-        w: canvasSettings.gap + 2,
+        w: canvasSettings.gap + 9,
         h: canvasSettings.circleSize * topRowSkeleton.height,
         rTop: 0,
         rBot: 0,
@@ -128,7 +128,7 @@ export const assembleRows = (
           midRowSkeleton.xpos +
           canvasSettings.circleSize,
         y: canvasSettings.padding + midRowSkeleton.ypos,
-        w: canvasSettings.gap + 2,
+        w: canvasSettings.gap + 9,
         h: canvasSettings.circleSize * midRowSkeleton.height,
         rTop: 0,
         rBot: 0,
@@ -141,7 +141,7 @@ export const assembleRows = (
           botRowSkeleton.xpos +
           canvasSettings.circleSize,
         y: canvasSettings.padding + botRowSkeleton.ypos,
-        w: canvasSettings.gap + 2,
+        w: canvasSettings.gap + 9,
         h: canvasSettings.circleSize * botRowSkeleton.height,
         rTop: 0,
         rBot: 0,
