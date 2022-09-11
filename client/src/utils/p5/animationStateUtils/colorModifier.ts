@@ -31,7 +31,7 @@ const colorPairings: ColorPair[] = [
   },
 ];
 
-let randomColorPair: ColorPair;
+let randomColorPair: ColorPair | undefined;
 let currentModifier: COLOR_MODIFIER | undefined;
 let counter = 0;
 let gapCount = Math.floor(Math.random() * (12 - 8) + 8);
@@ -114,6 +114,7 @@ export function colorModifier(
       break;
     }
     default: {
+      randomColorPair = undefined;
       break;
     }
   }

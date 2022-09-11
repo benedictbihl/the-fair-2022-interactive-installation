@@ -7,6 +7,7 @@ import BottomContent from "./components/BottomContent";
 import Canvas from "./components/Canvas";
 import DebugPanel from "./components/DebugPanel";
 import TopContent from "./components/TopContent";
+import Artists from "./constants/artists.json";
 import { AnimationModifierState } from "./constants/types";
 import { pickModifier } from "./utils/p5/randomizing/pickModifier";
 
@@ -24,6 +25,10 @@ const App = () => {
   const [IDModifierMap, setIDModifierMap] = useState<
     Map<number, Partial<AnimationModifierState>>
   >(new Map(JSON.parse(localStorage.getItem("IDModifierMap") ?? "[]")));
+
+  const [IDArtistNameMap, setIDArtistNameMap] = useState<Map<number, string>>(
+    new Map(JSON.parse(localStorage.getItem("IDArtistNameMap") ?? "[]"))
+  );
 
   const [usedModifiers, setUsedModifiers] = useState(
     JSON.parse(localStorage.getItem("usedModifiers") ?? "[]")
@@ -98,6 +103,9 @@ const App = () => {
           ...animationModifierState,
           ...newModifier,
         });
+        setIDArtistNameMap((prev) =>
+          new Map(prev).set(data, Artists[IDModifierMap.size].Name)
+        );
       }
     });
 
@@ -105,6 +113,10 @@ const App = () => {
     localStorage.setItem(
       "IDModifierMap",
       JSON.stringify(Array.from(IDModifierMap.entries()))
+    );
+    localStorage.setItem(
+      "IDArtistNameMap",
+      JSON.stringify(Array.from(IDArtistNameMap.entries()))
     );
     localStorage.setItem(
       "animationModifierState",
@@ -145,7 +157,7 @@ const App = () => {
       <TopContent />
       <Canvas animationModifierState={animationModifierState} />
       <BottomContent
-        nfcID={currentID}
+        currentArtistName={currentID ? IDArtistNameMap.get(currentID) : ""}
         animationModifierState={animationModifierState}
         numberOfInteractions={numberOfInteractions}
       />

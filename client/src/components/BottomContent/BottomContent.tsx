@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { FC, useEffect, useRef, useState } from "react";
 
 import { AnimationModifierState } from "../../constants/types";
-
 const usePrevious = (value: any) => {
   const ref = useRef();
   useEffect(() => {
@@ -14,10 +13,10 @@ const usePrevious = (value: any) => {
 };
 
 const BottomContent: FC<{
-  nfcID?: number;
+  currentArtistName?: string;
   numberOfInteractions: number;
   animationModifierState: AnimationModifierState;
-}> = ({ nfcID, numberOfInteractions, animationModifierState }) => {
+}> = ({ currentArtistName, numberOfInteractions, animationModifierState }) => {
   const [currentAnimationModifierState, setCurrentAnimationModifierState] =
     useState(animationModifierState);
   const previousAnimationModifierState = usePrevious(
@@ -48,7 +47,7 @@ const BottomContent: FC<{
   return (
     <div className="bottomContentWrapper">
       <p className="lastModified">
-        Last modified by <span>{nfcID}</span>
+        Last modified by <span>{currentArtistName}</span>
       </p>
       <ul>
         <li
