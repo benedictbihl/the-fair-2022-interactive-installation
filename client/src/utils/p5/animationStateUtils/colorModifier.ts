@@ -58,6 +58,7 @@ export function colorModifier(
   }
   p5.randomSeed(counter); // set the seed to the counter to avoid flickering, but still have new random positions each time the modifier changes
   switch (colorModifierState) {
+
     case COLOR_MODIFIER.FILL_CIRCLES: {
       rows.forEach((row) => {
         row.rectangles.forEach((rectangle, colIndex) => {
@@ -78,6 +79,7 @@ export function colorModifier(
       });
       break;
     }
+
     case COLOR_MODIFIER.FILL_RECTS_AND_CIRCLES: {
       rows.forEach((row) => {
         row.rectangles.forEach((rectangle, colIndex) => {
@@ -94,6 +96,7 @@ export function colorModifier(
       });
       break;
     }
+
     case COLOR_MODIFIER.FILL_GAPS_RECTS_AND_CIRCLES: {
       rows.forEach((row) => {
         row.gaps.forEach((gap, gapIndex) => {
@@ -112,6 +115,30 @@ export function colorModifier(
       });
       break;
     }
+
+    case COLOR_MODIFIER.ACID_SMILEYS: {
+      rows.forEach((row) => {
+        row.rectangles.forEach((rectangle, colIndex) => {
+          rectangle.circles!.forEach((circle) => {
+            if (colIndex % 2 === 0) {
+              if (p5.random() >= 0.4) {
+                circle.color = randomColorPair.primary;
+              } else if (p5.random() <= 0.2) {
+                circle.color = randomColorPair.secondary;
+              }
+            } else {
+              if (p5.random() <= 0.3) {
+                circle.color = randomColorPair.secondary;
+              }
+            }
+          });
+        });
+      });
+      break;
+    }
+
+
+
     default: {
       randomColorPair = undefined;
       break;
