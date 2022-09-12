@@ -58,7 +58,6 @@ export function colorModifier(
   }
   p5.randomSeed(counter); // set the seed to the counter to avoid flickering, but still have new random positions each time the modifier changes
   switch (colorModifierState) {
-
     case COLOR_MODIFIER.FILL_CIRCLES: {
       rows.forEach((row) => {
         row.rectangles.forEach((rectangle, colIndex) => {
@@ -136,8 +135,6 @@ export function colorModifier(
       });
       break;
     }
-
-
 
     default: {
       randomColorPair = undefined;
