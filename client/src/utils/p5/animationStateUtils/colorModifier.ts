@@ -121,13 +121,7 @@ export function colorModifier(
           rectangle.circles!.forEach((circle) => {
             if (colIndex % 2 === 0) {
               if (p5.random() >= 0.4) {
-                circle.color = randomColorPair.primary;
-              } else if (p5.random() <= 0.2) {
-                circle.color = randomColorPair.secondary;
-              }
-            } else {
-              if (p5.random() <= 0.3) {
-                circle.color = randomColorPair.secondary;
+                circle.emoji = true;
               }
             }
           });

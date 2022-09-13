@@ -11,6 +11,7 @@ export enum COLORS {
 export enum COLOR_MODIFIER {
   FILL_CIRCLES = "Circles",
   FILL_RECTS_AND_CIRCLES = "Rects & Circles",
+  ACID_SMILEYS = "Acid Smileys",
   FILL_GAPS_RECTS_AND_CIRCLES = "Gaps, Rects & Circles",
 }
 

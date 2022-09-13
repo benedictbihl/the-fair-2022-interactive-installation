@@ -11,7 +11,7 @@ import { Circle, Rectangle, Row } from "../../../constants/types";
  * @param  {Row} row - The row specification
  * @param  {AnimationModifierState} animationModifierState - The animation modifier state - used to modify the base sketch
  */
-export const drawRows = (p5: P5Instance, rows: Row[]) => {
+export const drawRows = (p5: P5Instance, rows: Row[], img: any) => {
   rows.forEach((row) => {
     row.gaps.forEach((gap: Rectangle) => {
       _drawRect(p5, gap);
@@ -19,7 +19,7 @@ export const drawRows = (p5: P5Instance, rows: Row[]) => {
     row.rectangles.forEach((rectangle) => {
       _drawRect(p5, rectangle);
       rectangle.circles?.forEach((circle) => {
-        _drawCircle(p5, circle);
+        _drawCircle(p5, circle, img);
       });
     });
   });
@@ -32,32 +32,37 @@ export const drawRows = (p5: P5Instance, rows: Row[]) => {
  * @param  {Circle} circle - The circle specification
  * @param  {ShapeModification} shapeModification - Whether the circle should be filled with one of the brand colors (hexcode)
  */
-const _drawCircle = (p5: P5Instance, circle: Circle) => {
-  circle.color && !circle.emoji ? p5.fill(circle.color) : p5.noFill();
-  p5.stroke(255);
-  p5.strokeWeight(circle.line);
-  //if zOff is defined,the perlin noise shape mod is active and we need to draw the circles differently
-  if (circle.zOff) {
-    p5.translate(circle.x, circle.y);
-    p5.beginShape();
-    for (let a = 0; a < p5.TWO_PI; a += 0.1) {
-      let xOff = p5.map(p5.cos(a), -1, 1, 0, 0.5);
-      let yOff = p5.map(p5.sin(a), -1, 1, 0, 0.5);
-      let r = p5.map(p5.noise(xOff, yOff, circle.zOff), 0, 1, 20, 42);
-      let x = r * p5.cos(a);
-      let y = r * p5.sin(a);
-      p5.vertex(x, y);
-    }
-    p5.endShape(p5.CLOSE);
-    p5.resetMatrix();
-  } else {
-    p5.ellipse(circle.x, circle.y, circle.r);
-  }
-
+const _drawCircle = (p5: P5Instance, circle: Circle, img: any) => {
   if (circle.emoji) {
-    p5.textSize(50);
-    p5.textAlign(p5.CENTER, p5.CENTER);
-    p5.text(circle.emoji, circle.x, circle.y + 3);
+    p5.image(
+      img,
+      circle.x - circle.r / 2,
+      circle.y - circle.r / 2,
+      circle.r,
+      circle.r
+    );
+  } else {
+    circle.color && !circle.emoji ? p5.fill(circle.color) : p5.noFill();
+    console.log(img);
+    p5.stroke(255);
+    p5.strokeWeight(circle.line);
+    //if zOff is defined,the perlin noise shape mod is active and we need to draw the circles differently
+    if (circle.zOff) {
+      p5.translate(circle.x, circle.y);
+      p5.beginShape();
+      for (let a = 0; a < p5.TWO_PI; a += 0.1) {
+        let xOff = p5.map(p5.cos(a), -1, 1, 0, 0.5);
+        let yOff = p5.map(p5.sin(a), -1, 1, 0, 0.5);
+        let r = p5.map(p5.noise(xOff, yOff, circle.zOff), 0, 1, 20, 42);
+        let x = r * p5.cos(a);
+        let y = r * p5.sin(a);
+        p5.vertex(x, y);
+      }
+      p5.endShape(p5.CLOSE);
+      p5.resetMatrix();
+    } else {
+      p5.ellipse(circle.x, circle.y, circle.r);
+    }
   }
 };
 
