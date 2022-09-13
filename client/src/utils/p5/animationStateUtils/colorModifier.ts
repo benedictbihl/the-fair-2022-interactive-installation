@@ -1,6 +1,5 @@
 import { P5Instance } from "react-p5-wrapper";
 
-import { canvasSettings } from "../../../constants/canvasSettings";
 import { COLOR_MODIFIER, COLORS } from "../../../constants/enums";
 import { ColorPair, Row } from "../../../constants/types";
 
@@ -42,13 +41,13 @@ let gapCount = Math.floor(Math.random() * (12 - 8) + 8);
  * @param  {P5Instance} p5 - The p5 instance
  * @param  {COLOR_MODIFIER} colorModifierState - Slice of the AnimationState that contains the color modifier state
  * @param  {Row[]} rows - The rows we want to perform the manipulations on
- * @returns Row - The modified rows
+ *
  */
 export function colorModifier(
   p5: P5Instance,
   colorModifierState: COLOR_MODIFIER | undefined,
   rows: Row[]
-): { rows: Row[]; colorPair: ColorPair } {
+): { rows: Row[]; colorPair: ColorPair | undefined } {
   // only generate new colors if the modifier has changed
   if (colorModifierState !== currentModifier) {
     counter++;
@@ -65,13 +64,13 @@ export function colorModifier(
           rectangle.circles!.forEach((circle) => {
             if (colIndex % 2 === 0) {
               if (p5.random() >= 0.4) {
-                circle.color = randomColorPair.primary;
+                circle.color = randomColorPair!.primary;
               } else if (p5.random() <= 0.2) {
-                circle.color = randomColorPair.secondary;
+                circle.color = randomColorPair!.secondary;
               }
             } else {
               if (p5.random() <= 0.3) {
-                circle.color = randomColorPair.secondary;
+                circle.color = randomColorPair!.secondary;
               }
             }
           });
@@ -83,13 +82,13 @@ export function colorModifier(
       rows.forEach((row) => {
         row.rectangles.forEach((rectangle, colIndex) => {
           if (p5.random() >= 0.7 && colIndex % 2 === 0) {
-            rectangle.color = randomColorPair.primary;
-            rectangle.circles![0].color = randomColorPair.secondary;
-            rectangle.circles![1].color = randomColorPair.secondary;
+            rectangle.color = randomColorPair!.primary;
+            rectangle.circles![0].color = randomColorPair!.secondary;
+            rectangle.circles![1].color = randomColorPair!.secondary;
           } else if (p5.random() <= 0.3 && colIndex % 2 === 1) {
-            rectangle.color = randomColorPair.secondary;
-            rectangle.circles![0].color = randomColorPair.primary;
-            rectangle.circles![1].color = randomColorPair.primary;
+            rectangle.color = randomColorPair!.secondary;
+            rectangle.circles![0].color = randomColorPair!.primary;
+            rectangle.circles![1].color = randomColorPair!.primary;
           }
         });
       });
@@ -99,15 +98,15 @@ export function colorModifier(
       rows.forEach((row) => {
         row.gaps.forEach((gap, gapIndex) => {
           if (gapIndex > gapCount) {
-            gap.color = randomColorPair.secondary;
+            gap.color = randomColorPair!.secondary;
             gap.line = gapIndex % 2 === 0 ? 0.4 : 1;
           }
         });
         row.rectangles.forEach((rectangle, colIndex) => {
           if (colIndex < gapCount && colIndex % 2 === 1) {
-            rectangle.color = randomColorPair.primary;
-            rectangle.circles![0].color = randomColorPair.primary;
-            rectangle.circles![1].color = randomColorPair.primary;
+            rectangle.color = randomColorPair!.primary;
+            rectangle.circles![0].color = randomColorPair!.primary;
+            rectangle.circles![1].color = randomColorPair!.primary;
           }
         });
       });
