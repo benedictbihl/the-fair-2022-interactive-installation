@@ -1,8 +1,9 @@
 import "./Canvas.css";
 
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { P5Instance, ReactP5Wrapper } from "react-p5-wrapper";
 
+import smiley from "../../assets/Acid_Smiley_Song.png?url";
 import { ReactComponent as CutMark } from "../../assets/icons/cutmark.svg";
 import { canvasSettings } from "../../constants/canvasSettings";
 import { AnimationModifierState, ColorPair, Row } from "../../constants/types";
@@ -13,6 +14,7 @@ import { pixelModifier } from "../../utils/p5/animationStateUtils/pixelModifier"
 import { shapeModifier } from "../../utils/p5/animationStateUtils/shapeModifiers";
 import { assembleRows, drawRows } from "../../utils/p5/drawingUtils/drawShapes";
 import AnimatedBars from "../AnimatedBars";
+let img: any;
 
 const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
   animationModifierState,
@@ -20,7 +22,11 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
   const [colorPair, setColorPair] = useState<ColorPair | undefined>(undefined);
   // draw the base sketch
   function sketch(p5: P5Instance) {
+    p5.preload = () => {
+      img = p5.loadImage(smiley);
+    };
     p5.setup = () => {
+      // p5.image(img, 0, 0);
       p5.createCanvas(canvasSettings.canvasWidth, canvasSettings.canvasHeight);
       p5.noStroke();
     };
@@ -103,7 +109,7 @@ const Canvas: FC<{ animationModifierState: AnimationModifierState }> = ({
       );
 
       //do the actual drawing of the shapes
-      drawRows(p5, rowsWithMovementAndColorModAndShapeMod);
+      drawRows(p5, rowsWithMovementAndColorModAndShapeMod, img);
 
       //this modifier does not draw elements directly, but works on a pixel base
       // -> we only call it after the drawing is finished

@@ -26,7 +26,7 @@ export type Circle = {
   zOff?: number;
   line: number;
   color?: COLORS;
-  emoji?: string;
+  emoji?: boolean;
 };
 
 export type Rectangle = {
