@@ -1,8 +1,8 @@
 import { CanvasSettings } from "./types";
 
 export const canvasSettings: CanvasSettings = {
-  scaleFactor: 8,
-  columnCount: 21,
+  scaleFactor: 6,
+  columnCount: 33,
   rowCount: 3,
   gap: 10,
   get padding() {
