@@ -7,7 +7,7 @@ import { Row } from "../../../constants/types";
 let count = 0;
 let zOffCircles: number[] = [];
 
-for (let i = 0; i < 45; i++) {
+for (let i = 0; i < canvasSettings.columnCount * canvasSettings.rowCount; i++) {
   zOffCircles[i] = i;
 }
 /**
